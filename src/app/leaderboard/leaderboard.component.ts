@@ -25,7 +25,7 @@ export class LeaderboardComponent {
   ];
 
   constructor(private leaderboardService: LeaderboardService) {
-    this.fetchLeaderboardData('xp');
+    this.fetchLeaderboardData('xp'); // Initial data fetch
   }
 
   fetchLeaderboardData(sort: SortKey, page?: number) {
@@ -44,12 +44,12 @@ export class LeaderboardComponent {
   }
 
   nextPage() {
-    this.fetchLeaderboardData(this.currentSort(), this.currentPage() + 1);
+    this.fetchLeaderboardData(this.currentSort(), this.currentPage() + 1); // Increment page
   }
 
   previousPage() {
-    if (this.currentPage() > 0) {
-      this.fetchLeaderboardData(this.currentSort(), this.currentPage() - 1);
+    if (this.currentPage() > 1) {
+      this.fetchLeaderboardData(this.currentSort(), this.currentPage() - 1); // Decrement page if > 1
     }
   }
 }

@@ -29,7 +29,8 @@ export type SortKey =
 export class LeaderboardService {
   constructor(private http: HttpClient) {}
 
-  getLeaderboard(sort: SortKey, page: number = 0): Observable<Player[]> {
+  getLeaderboard(sort: SortKey, page: number = 1): Observable<Player[]> {
+    // Fetch leaderboard data and enrich with player info
     return this.http
       .get<Player[]>(
         `https://api.hglabor.de/stats/FFA/top?sort=${sort}&page=${page}`

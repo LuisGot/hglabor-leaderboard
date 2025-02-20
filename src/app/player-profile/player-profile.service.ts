@@ -31,6 +31,7 @@ export class PlayerProfileService {
   constructor(private http: HttpClient) {}
 
   getPlayerProfile(uuid: string): Observable<PlayerProfile> {
+    // Combine stats and player info data
     return forkJoin({
       stats: this.http.get<PlayerProfile>(
         `https://api.hglabor.de/stats/FFA/${uuid}`

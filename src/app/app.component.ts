@@ -15,6 +15,6 @@ export class AppComponent {
   isDarkMode$ = this.themeService.darkMode$;
 
   toggleTheme(): void {
-    this.themeService.toggleDarkMode();
+    this.themeService.toggleDarkMode(); // Toggle theme mode
   }
 }
