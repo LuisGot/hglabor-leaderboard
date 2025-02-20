@@ -1,0 +1,172 @@
+<div class="min-h-screen bg-white dark:bg-neutral-900 relative overflow-hidden">
+  <div class="flex justify-center my-8 opacity-0 animate-fade-in">
+    <img
+      src="assets/images/norisk-logo.png"
+      alt="NoRisk"
+      class="h-24 pixelated opacity-0 animate-bounce-in"
+    />
+  </div>
+  <div
+    class="container mx-auto px-4 opacity-0 animate-fade-in animation-delay-150"
+  >
+    <div
+      class="flex flex-wrap justify-center gap-4 mb-8 opacity-0 animate-slide-up animation-delay-300"
+    >
+      <button
+        (click)="fetchLeaderboardData('xp')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        XP
+      </button>
+      <button
+        (click)="fetchLeaderboardData('kills')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        Kills
+      </button>
+      <button
+        (click)="fetchLeaderboardData('deaths')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        Deaths
+      </button>
+      <button
+        (click)="fetchLeaderboardData('currentKillStreak')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        Current Streak
+      </button>
+      <button
+        (click)="fetchLeaderboardData('highestKillStreak')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        Highest Streak
+      </button>
+      <button
+        (click)="fetchLeaderboardData('bounty')"
+        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+      >
+        Bounty
+      </button>
+    </div>
+
+    <div
+      class="overflow-x-auto bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 opacity-0 animate-slide-up animation-delay-500"
+    >
+      <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
+        <div
+          class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2196F3]"
+        ></div>
+      </div>
+      <table
+        *ngIf="!isLoading()"
+        class="w-full border-separate border-spacing-1"
+      >
+        <thead>
+          <tr>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Place
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Player
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              XP
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Kills
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Deaths
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Current Streak
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Highest Streak
+            </th>
+            <th class="text-[#1976D2] p-4 jersey-10-regular text-left text-2xl">
+              Bounty
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let player of leaderboard(); let i = index"
+            class="transition-colors hover:bg-[#2196F3]/5 opacity-0 animate-fade-in"
+            [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
+          >
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ (currentPage() - 1) * 100 + i + 1 }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl flex items-center space-x-2"
+            >
+              <img
+                [src]="player.avatar"
+                alt="{{ player.username }} avatar"
+                class="h-8 w-8"
+              />
+              <a
+                [routerLink]="['/player', player.playerId]"
+                class="hover:text-[#2196F3] transition-colors"
+              >
+                {{ player.username }}
+              </a>
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.xp }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.kills }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.deaths }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.currentKillStreak }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.highestKillStreak }}
+            </td>
+            <td
+              class="text-gray-800 dark:text-white p-4 jersey-10-regular text-2xl"
+            >
+              {{ player.bounty }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex justify-center items-center gap-4 p-4">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage() === 1"
+          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Previous
+        </button>
+        <span class="jersey-10-regular text-xl text-gray-800 dark:text-white"
+          >Page {{ currentPage() }}</span
+        >
+        <button
+          (click)="nextPage()"
+          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

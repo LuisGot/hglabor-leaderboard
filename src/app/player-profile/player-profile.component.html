@@ -1,0 +1,174 @@
+<div class="min-h-screen bg-white dark:bg-neutral-900 relative overflow-hidden">
+  <div class="flex justify-center my-8 opacity-0 animate-fade-in">
+    <img
+      src="assets/images/norisk-logo.png"
+      alt="NoRisk"
+      class="h-24 pixelated opacity-0 animate-bounce-in"
+    />
+  </div>
+
+  <div
+    class="container mx-auto px-4 mb-8 opacity-0 animate-fade-in animation-delay-100"
+  >
+    <a
+      routerLink="/"
+      class="inline-flex items-center px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-xl"
+    >
+      ← Back to Leaderboard
+    </a>
+  </div>
+
+  <div
+    class="container mx-auto px-4 opacity-0 animate-fade-in animation-delay-300"
+  >
+    <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
+      <div
+        class="opacity-0 animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2196F3]"
+      ></div>
+    </div>
+
+    <div *ngIf="!isLoading() && playerProfile()" class="space-y-8">
+      <div
+        class="flex flex-col items-center space-y-4 opacity-0 animate-slide-up animation-delay-500"
+      >
+        <img
+          [src]="playerProfile()?.avatar"
+          [alt]="playerProfile()?.username + ' avatar'"
+          class="h-32 w-32 pixelated"
+        />
+        <div class="flex items-center gap-2">
+          <h1 class="text-4xl jersey-10-regular text-[#1976D2]">
+            {{ playerProfile()?.username }}
+          </h1>
+          <button
+            (click)="copyUUID()"
+            class="px-3 py-1 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors jersey-10-regular border-2 border-b-4 border-[#1976D2] text-sm flex items-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-700 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl">XP</h2>
+            <img
+              src="/assets/images/xp-icon.gif"
+              alt="XP"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.xp }}
+          </p>
+        </div>
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-800 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl mb-2">
+              Kills
+            </h2>
+            <img
+              src="/assets/images/kill-icon.webp"
+              alt="Kills"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.kills }}
+          </p>
+        </div>
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-900 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl">Deaths</h2>
+            <img
+              src="/assets/images/death-icon.jpg"
+              alt="Deaths"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.deaths }}
+          </p>
+        </div>
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-1000 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl">
+              Current Streak
+            </h2>
+            <img
+              src="/assets/images/streak-icon.webp"
+              alt="Current Streak"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.currentKillStreak }}
+          </p>
+        </div>
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-1100 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl">
+              Highest Streak
+            </h2>
+            <img
+              src="/assets/images/highest-streak-icon.webp"
+              alt="Highest Streak"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.highestKillStreak }}
+          </p>
+        </div>
+        <div
+          class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-1200 flex flex-col gap-1 justify-center"
+        >
+          <div class="flex justify-between gap-2">
+            <h2 class="text-[#1976D2] jersey-10-regular text-2xl">Bounty</h2>
+            <img
+              src="/assets/images/bounty-icon.webp"
+              alt="Bounty"
+              class="w-7 h-7 pixelated"
+            />
+          </div>
+          <p class="text-gray-800 dark:text-white jersey-10-regular text-xl">
+            {{ playerProfile()?.bounty }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6 opacity-0 animate-slide-up animation-delay-1300"
+      >
+        <h2 class="text-[#1976D2] jersey-10-regular text-2xl mb-4">
+          Heroes Data
+        </h2>
+        <app-hero-abilities
+          [heroes]="playerProfile()?.heroes"
+        ></app-hero-abilities>
+      </div>
+    </div>
+  </div>
+</div>

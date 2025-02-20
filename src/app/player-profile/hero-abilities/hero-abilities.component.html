@@ -1,0 +1,45 @@
+<div class="space-y-8">
+  <div
+    *ngFor="let hero of getHeroEntries()"
+    class="bg-gray-50 dark:bg-neutral-800 rounded-lg shadow-lg p-6 border-2 border-[#2196F3]/30"
+  >
+    <h3 class="text-2xl jersey-10-regular text-[#1976D2] capitalize mb-6">
+      {{ hero[0] }}
+    </h3>
+
+    <div class="space-y-6">
+      <div
+        *ngFor="let ability of getAbilityEntries(hero[1])"
+        class="bg-gray-50 dark:bg-neutral-800 p-4 rounded-lg"
+      >
+        <h4 class="text-xl jersey-10-regular text-[#1976D2] capitalize mb-4">
+          {{ formatAbilityName(ability[0]) }}
+        </h4>
+
+        <div class="space-y-4">
+          <div
+            *ngFor="let stat of getStatEntries(ability[1])"
+            class="space-y-2"
+          >
+            <div class="flex justify-between items-center">
+              <span class="text-gray-700 dark:text-neutral-200 capitalize">{{
+                formatStatName(stat[0])
+              }}</span>
+              <span class="text-gray-600 dark:text-neutral-200">{{
+                stat[1].experiencePoints
+              }}</span>
+            </div>
+            <div
+              class="w-full bg-gray-200 dark:bg-neutral-500 rounded-full h-2.5"
+            >
+              <div
+                class="bg-[#2196F3] h-2.5 rounded-full transition-all duration-500"
+                [style.width.%]="(stat[1].experiencePoints / 100000) * 100"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
