@@ -1,7 +1,7 @@
 <div class="flex gap-2 text-lg">
   <div class="flex items-center gap-2">
-    <span class="text-[#1976D2] jersey-10-regular">Players Online:</span>
-    <span class="text-gray-800 dark:text-white jersey-10-regular">
+    <span class="text-[#1976D2] font-jersey">Players Online:</span>
+    <span class="text-gray-800 dark:text-white font-jersey">
       {{ serverStatus()?.players?.online || "0" }}/{{
         serverStatus()?.players?.max || "0"
       }}

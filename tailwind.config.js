@@ -4,6 +4,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        jersey: ['"Jersey 10"', "serif"],
+      },
       keyframes: {
         "fade-in": {
           "0%": { opacity: "0" },
