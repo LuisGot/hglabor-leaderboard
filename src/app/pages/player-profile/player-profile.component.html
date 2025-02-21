@@ -27,7 +27,25 @@
       ></div>
     </div>
 
-    <div *ngIf="!isLoading() && playerProfile()" class="space-y-8">
+    <div *ngIf="error()" class="max-w-2xl mx-auto opacity-0 animate-fade-in">
+      <div
+        class="bg-red-50 dark:bg-red-900/20 backdrop-blur-sm rounded-lg border-2 border-red-500/30 p-8 text-center"
+      >
+        <h2
+          class="text-2xl text-red-600 dark:text-red-400 jersey-10-regular mb-4"
+        >
+          {{ error() }}
+        </h2>
+        <a
+          routerLink="/players"
+          class="inline-flex items-center px-6 py-2 bg-red-500 text-white hover:bg-red-600 transition-colors jersey-10-regular border-2 border-b-4 border-red-700 text-xl"
+        >
+          Search Another Player
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading() && playerProfile() && !error()" class="space-y-8">
       <div
         class="flex flex-col items-center space-y-4 opacity-0 animate-slide-up animation-delay-500"
       >

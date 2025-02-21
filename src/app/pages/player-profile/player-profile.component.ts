@@ -15,6 +15,7 @@ export class PlayerProfileComponent implements OnInit {
   playerProfile = signal<PlayerProfile | null>(null);
   isLoading = signal<boolean>(false);
   uuid = signal<string | null>(null);
+  error = signal<string | null>(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +30,7 @@ export class PlayerProfileComponent implements OnInit {
     }
   }
 
-  async copyUUID() {
+  async copyUUID(): Promise<void> {
     const uuid = this.uuid();
     if (uuid) {
       try {
@@ -40,13 +41,24 @@ export class PlayerProfileComponent implements OnInit {
     }
   }
 
-  private fetchPlayerProfile(uuid: string) {
+  private fetchPlayerProfile(uuid: string): void {
     this.isLoading.set(true);
+    this.error.set(null);
     this.playerProfileService
       .getPlayerProfile(uuid)
       .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe((profile) => {
-        this.playerProfile.set(profile);
+      .subscribe({
+        next: (profile) => {
+          if (!profile) {
+            this.error.set('No player data found');
+            return;
+          }
+          this.playerProfile.set(profile);
+        },
+        error: (err) => {
+          this.error.set('Failed to load player data');
+          console.error('Error fetching player profile:', err);
+        },
       });
   }
 }

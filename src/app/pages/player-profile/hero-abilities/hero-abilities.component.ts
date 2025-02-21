@@ -22,27 +22,22 @@ interface Hero {
 export class HeroAbilitiesComponent {
   @Input() heroes: { [key: string]: Hero } = {};
 
-  // Return hero entries as key-value pairs
-  getHeroEntries() {
+  getHeroEntries(): [string, Hero][] {
     return Object.entries(this.heroes);
   }
 
-  // Return ability entries for a hero
-  getAbilityEntries(hero: Hero) {
+  getAbilityEntries(hero: Hero): [string, Ability][] {
     return Object.entries(hero);
   }
 
-  // Return stat entries for an ability
-  getStatEntries(ability: Ability) {
+  getStatEntries(ability: Ability): [string, AbilityValue][] {
     return Object.entries(ability);
   }
 
-  // Format ability name by replacing underscores
   formatAbilityName(name: string): string {
     return name.replace(/_/g, ' ');
   }
 
-  // Format stat name by replacing underscores
   formatStatName(name: string): string {
     return name.replace(/_/g, ' ');
   }

@@ -1,20 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ThemeService } from './services/theme.service';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, HeaderComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
   title = 'Norisk';
-  themeService = inject(ThemeService);
-  isDarkMode$ = this.themeService.darkMode$;
-
-  toggleTheme(): void {
-    this.themeService.toggleDarkMode(); // Toggle theme mode
-  }
 }
