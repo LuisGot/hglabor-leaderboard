@@ -67,12 +67,12 @@ export class LeaderboardComponent {
   }
 
   nextPage() {
-    this.fetchLeaderboardData(this.currentSort(), this.currentPage() + 1); // Increment page
+    this.fetchLeaderboardData(this.currentSort(), this.currentPage() + 1);
   }
 
   previousPage() {
     if (this.currentPage() > 1) {
-      this.fetchLeaderboardData(this.currentSort(), this.currentPage() - 1); // Decrement page if > 1
+      this.fetchLeaderboardData(this.currentSort(), this.currentPage() - 1);
     }
   }
 }

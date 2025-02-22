@@ -79,7 +79,9 @@
             [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
             [routerLink]="['/player', player.playerId]"
           >
-            <td class="table-cell">{{ (currentPage() - 1) * 100 + i + 1 }}</td>
+            <td class="table-cell">
+              {{ (currentPage() - 1) * 100 + i + 1 }}
+            </td>
             <td class="table-cell">
               <div class="flex flex-row items-center space-x-2">
                 <img
@@ -109,9 +111,9 @@
         >
           Previous
         </button>
-        <span class="text-xl text-gray-800 dark:text-white"
-          >Page {{ currentPage() }}</span
-        >
+        <span class="text-xl text-gray-800 dark:text-white">
+          Page {{ currentPage() }}
+        </span>
         <button (click)="nextPage()" class="btn-primary px-6 py-2">Next</button>
       </div>
     </div>
