@@ -15,11 +15,11 @@
 }
 
 .table-head {
-  @apply text-[#1976D2] p-4 text-left text-2xl;
+  @apply text-[#1976D2] p-4 text-left text-2xl sm:text-xl;
 }
 
 .table-cell {
-  @apply text-gray-800 dark:text-white p-4 text-2xl;
+  @apply text-gray-800 dark:text-white p-4 text-2xl sm:text-xl;
 }
 
 .card {

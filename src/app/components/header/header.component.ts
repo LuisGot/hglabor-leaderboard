@@ -15,4 +15,10 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
   ],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  mobileMenuOpen: boolean = false;
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+}

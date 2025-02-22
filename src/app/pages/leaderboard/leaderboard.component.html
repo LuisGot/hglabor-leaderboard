@@ -13,11 +13,11 @@
     <div
       class="flex flex-wrap gap-4 mb-8 opacity-0 animate-slide-up animation-delay-300"
     >
-      <div class="relative inline-block">
+      <div class="relative inline-block w-full md:w-auto">
         <select
           [ngModel]="currentSort()"
           (ngModelChange)="fetchLeaderboardData($event)"
-          class="btn-primary px-6 pr-12 py-2 appearance-none cursor-pointer"
+          class="btn-primary w-full md:w-auto px-6 pr-12 py-2 appearance-none cursor-pointer"
         >
           <option value="xp">XP</option>
           <option value="kills">Kills</option>
@@ -58,7 +58,7 @@
       </div>
       <table
         *ngIf="!isLoading()"
-        class="w-full border-separate border-spacing-1"
+        class="w-full border-separate border-spacing-1 text-sm md:text-base"
       >
         <thead>
           <tr>
@@ -89,9 +89,7 @@
                   alt="{{ player.username }} avatar"
                   class="h-8 w-8 pixelated"
                 />
-                <span>
-                  {{ player.username }}
-                </span>
+                <span>{{ player.username }}</span>
               </div>
             </td>
             <td class="table-cell">{{ player.xp }}</td>
