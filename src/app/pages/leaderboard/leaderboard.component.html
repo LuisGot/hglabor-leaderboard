@@ -114,7 +114,7 @@
             [routerLink]="['/player', player.playerId]"
           >
             <td class="table-cell">
-              {{ (currentPage() - 1) * 100 + i + 1 }}
+              {{ player.originalPlace }}
             </td>
             <td class="table-cell">
               <div class="flex flex-row items-center space-x-2">

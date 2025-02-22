@@ -5,6 +5,10 @@ import { finalize } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+interface PlayerWithPlace extends Player {
+  originalPlace: number;
+}
+
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
@@ -12,8 +16,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './leaderboard.component.html',
 })
 export class LeaderboardComponent {
-  leaderboard = signal<Player[]>([]);
-  filteredLeaderboard = signal<Player[]>([]);
+  leaderboard = signal<PlayerWithPlace[]>([]);
+  filteredLeaderboard = signal<PlayerWithPlace[]>([]);
   isLoading = signal<boolean>(false);
   currentPage = signal<number>(1);
   currentSort = signal<SortKey>('xp');
@@ -42,7 +46,11 @@ export class LeaderboardComponent {
       .getLeaderboard(sort, this.currentPage())
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe((data) => {
-        this.leaderboard.set(data);
+        const playersWithPlace = data.map((player, index) => ({
+          ...player,
+          originalPlace: (this.currentPage() - 1) * 100 + index + 1,
+        }));
+        this.leaderboard.set(playersWithPlace);
         this.filterLeaderboard(this.searchTerm());
       });
   }
