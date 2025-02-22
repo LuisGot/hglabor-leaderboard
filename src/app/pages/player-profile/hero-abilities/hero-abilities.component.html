@@ -3,7 +3,7 @@
     *ngFor="let hero of getHeroEntries()"
     class="bg-gray-50 dark:bg-neutral-800 rounded-lg shadow-lg p-6 border-2 border-[#2196F3]/30"
   >
-    <h3 class="text-2xl font-jersey text-[#1976D2] capitalize mb-6">
+    <h3 class="text-2xl text-[#1976D2] capitalize mb-6">
       {{ hero[0] }}
     </h3>
 
@@ -12,7 +12,7 @@
         *ngFor="let ability of getAbilityEntries(hero[1])"
         class="bg-gray-50 dark:bg-neutral-800 p-4 rounded-lg"
       >
-        <h4 class="text-xl font-jersey text-[#1976D2] capitalize mb-4">
+        <h4 class="text-xl text-[#1976D2] capitalize mb-4">
           {{ formatAbilityName(ability[0]) }}
         </h4>
 

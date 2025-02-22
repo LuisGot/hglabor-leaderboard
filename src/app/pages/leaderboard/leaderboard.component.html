@@ -3,7 +3,7 @@
     <img
       src="assets/images/norisk-logo.png"
       alt="NoRisk"
-      class="h-24 pixelated opacity-0 animate-bounce-in"
+      class="h-32 pixelated opacity-0 animate-bounce-in"
     />
   </div>
 
@@ -11,44 +11,38 @@
     class="container mx-auto px-4 opacity-0 animate-fade-in animation-delay-150"
   >
     <div
-      class="flex flex-wrap justify-center gap-4 mb-8 opacity-0 animate-slide-up animation-delay-300"
+      class="flex flex-wrap gap-4 mb-8 opacity-0 animate-slide-up animation-delay-300"
     >
-      <button
-        (click)="fetchLeaderboardData('xp')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        XP
-      </button>
-      <button
-        (click)="fetchLeaderboardData('kills')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        Kills
-      </button>
-      <button
-        (click)="fetchLeaderboardData('deaths')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        Deaths
-      </button>
-      <button
-        (click)="fetchLeaderboardData('currentKillStreak')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        Current Streak
-      </button>
-      <button
-        (click)="fetchLeaderboardData('highestKillStreak')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        Highest Streak
-      </button>
-      <button
-        (click)="fetchLeaderboardData('bounty')"
-        class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
-      >
-        Bounty
-      </button>
+      <div class="relative inline-block">
+        <select
+          [ngModel]="currentSort()"
+          (ngModelChange)="fetchLeaderboardData($event)"
+          class="px-6 pr-12 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl appearance-none cursor-pointer"
+        >
+          <option value="xp">XP</option>
+          <option value="kills">Kills</option>
+          <option value="deaths">Deaths</option>
+          <option value="currentKillStreak">Current Streak</option>
+          <option value="highestKillStreak">Highest Streak</option>
+          <option value="bounty">Bounty</option>
+        </select>
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white"
+        >
+          <svg
+            class="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
 
     <div class="mb-4 opacity-0 animate-slide-up animation-delay-400">
@@ -57,7 +51,7 @@
         [value]="searchTerm()"
         (input)="onSearch($event)"
         placeholder="Search by username..."
-        class="w-full px-4 py-2 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white font-jersey text-xl"
+        class="w-full px-4 py-2 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl"
       />
     </div>
 
@@ -75,30 +69,18 @@
       >
         <thead>
           <tr>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              Place
-            </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              Player
-            </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              XP
-            </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              Kills
-            </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              Deaths
-            </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
+            <th class="text-[#1976D2] p-4 text-left text-2xl">Place</th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">Player</th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">XP</th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">Kills</th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">Deaths</th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">
               Current Streak
             </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
+            <th class="text-[#1976D2] p-4 text-left text-2xl">
               Highest Streak
             </th>
-            <th class="text-[#1976D2] p-4 font-jersey text-left text-2xl">
-              Bounty
-            </th>
+            <th class="text-[#1976D2] p-4 text-left text-2xl">Bounty</th>
           </tr>
         </thead>
         <tbody>
@@ -107,11 +89,11 @@
             class="transition-colors hover:bg-[#2196F3]/5 opacity-0 animate-fade-in"
             [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
           >
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ (currentPage() - 1) * 100 + i + 1 }}
             </td>
             <td
-              class="text-gray-800 dark:text-white p-4 font-jersey text-2xl flex items-center space-x-2"
+              class="text-gray-800 dark:text-white p-4 text-2xl flex items-center space-x-2"
             >
               <img
                 [src]="player.avatar"
@@ -125,22 +107,22 @@
                 {{ player.username }}
               </a>
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.xp }}
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.kills }}
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.deaths }}
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.currentKillStreak }}
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.highestKillStreak }}
             </td>
-            <td class="text-gray-800 dark:text-white p-4 font-jersey text-2xl">
+            <td class="text-gray-800 dark:text-white p-4 text-2xl">
               {{ player.bounty }}
             </td>
           </tr>
@@ -150,16 +132,16 @@
         <button
           (click)="previousPage()"
           [disabled]="currentPage() === 1"
-          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
-        <span class="font-jersey text-xl text-gray-800 dark:text-white"
+        <span class="text-xl text-gray-800 dark:text-white"
           >Page {{ currentPage() }}</span
         >
         <button
           (click)="nextPage()"
-          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors font-jersey border-2 border-b-4 border-[#1976D2] text-xl"
+          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl"
         >
           Next
         </button>

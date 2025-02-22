@@ -1,28 +1,24 @@
-<header
-  class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-neutral-900 shadow-md text-lg"
->
+<header class="z-40 bg-white dark:bg-neutral-900 shadow-md text-lg">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <div class="flex items-center gap-2">
+      <a routerLink="/" class="flex items-center gap-2">
         <img
           src="assets/images/hglabor.webp"
           alt="Logo"
           class="size-14 mb-3 pixelated"
         />
-        <span class="text-gray-800 dark:text-white font-jersey text-3xl"
-          >hglabor.de</span
-        >
-      </div>
+        <span class="text-gray-800 dark:text-white text-3xl">hglabor.de</span>
+      </a>
       <nav class="flex items-center space-x-8">
         <a
           routerLink="/"
-          class="text-gray-700 dark:text-gray-200 hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200 font-jersey"
+          class="text-gray-700 dark:text-gray-200 hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
         >
           Leaderboard
         </a>
         <a
           routerLink="/players"
-          class="text-gray-700 dark:text-gray-200 hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200 font-jersey"
+          class="text-gray-700 dark:text-gray-200 hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
         >
           Players
         </a>
