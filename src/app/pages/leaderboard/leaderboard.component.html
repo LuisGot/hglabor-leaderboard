@@ -17,7 +17,7 @@
         <select
           [ngModel]="currentSort()"
           (ngModelChange)="fetchLeaderboardData($event)"
-          class="px-6 pr-12 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl appearance-none cursor-pointer"
+          class="btn-primary px-6 pr-12 py-2 appearance-none cursor-pointer"
         >
           <option value="xp">XP</option>
           <option value="kills">Kills</option>
@@ -29,18 +29,11 @@
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white"
         >
-          <svg
+          <img
+            src="assets/images/icons/dropdown-icon.svg"
+            alt="Dropdown arrow"
             class="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          />
         </div>
       </div>
     </div>
@@ -69,62 +62,42 @@
       >
         <thead>
           <tr>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">Place</th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">Player</th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">XP</th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">Kills</th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">Deaths</th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">
-              Current Streak
-            </th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">
-              Highest Streak
-            </th>
-            <th class="text-[#1976D2] p-4 text-left text-2xl">Bounty</th>
+            <th class="table-head">Place</th>
+            <th class="table-head">Player</th>
+            <th class="table-head">XP</th>
+            <th class="table-head">Kills</th>
+            <th class="table-head">Deaths</th>
+            <th class="table-head">Current Streak</th>
+            <th class="table-head">Highest Streak</th>
+            <th class="table-head">Bounty</th>
           </tr>
         </thead>
         <tbody>
           <tr
             *ngFor="let player of filteredLeaderboard(); let i = index"
-            class="transition-colors hover:bg-[#2196F3]/5 opacity-0 animate-fade-in"
+            class="transition-colors hover:bg-[#2196F3]/5 opacity-0 animate-fade-in cursor-pointer"
             [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
+            [routerLink]="['/player', player.playerId]"
           >
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ (currentPage() - 1) * 100 + i + 1 }}
+            <td class="table-cell">{{ (currentPage() - 1) * 100 + i + 1 }}</td>
+            <td class="table-cell">
+              <div class="flex flex-row items-center space-x-2">
+                <img
+                  [src]="player.avatar"
+                  alt="{{ player.username }} avatar"
+                  class="h-8 w-8 pixelated"
+                />
+                <span>
+                  {{ player.username }}
+                </span>
+              </div>
             </td>
-            <td
-              class="text-gray-800 dark:text-white p-4 text-2xl flex items-center space-x-2"
-            >
-              <img
-                [src]="player.avatar"
-                alt="{{ player.username }} avatar"
-                class="h-8 w-8"
-              />
-              <a
-                [routerLink]="['/player', player.playerId]"
-                class="hover:text-[#2196F3] transition-colors"
-              >
-                {{ player.username }}
-              </a>
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.xp }}
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.kills }}
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.deaths }}
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.currentKillStreak }}
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.highestKillStreak }}
-            </td>
-            <td class="text-gray-800 dark:text-white p-4 text-2xl">
-              {{ player.bounty }}
-            </td>
+            <td class="table-cell">{{ player.xp }}</td>
+            <td class="table-cell">{{ player.kills }}</td>
+            <td class="table-cell">{{ player.deaths }}</td>
+            <td class="table-cell">{{ player.currentKillStreak }}</td>
+            <td class="table-cell">{{ player.highestKillStreak }}</td>
+            <td class="table-cell">{{ player.bounty }}</td>
           </tr>
         </tbody>
       </table>
@@ -132,19 +105,14 @@
         <button
           (click)="previousPage()"
           [disabled]="currentPage() === 1"
-          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          class="btn-primary px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
         <span class="text-xl text-gray-800 dark:text-white"
           >Page {{ currentPage() }}</span
         >
-        <button
-          (click)="nextPage()"
-          class="px-6 py-2 bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl"
-        >
-          Next
-        </button>
+        <button (click)="nextPage()" class="btn-primary px-6 py-2">Next</button>
       </div>
     </div>
   </div>

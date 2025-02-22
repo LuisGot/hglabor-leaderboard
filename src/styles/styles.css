@@ -9,3 +9,19 @@
   font-smooth: never;
   -webkit-font-smoothing: none;
 }
+
+.btn-primary {
+  @apply bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2] text-xl;
+}
+
+.table-head {
+  @apply text-[#1976D2] p-4 text-left text-2xl;
+}
+
+.table-cell {
+  @apply text-gray-800 dark:text-white p-4 text-2xl;
+}
+
+.card {
+  @apply bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 p-6;
+}

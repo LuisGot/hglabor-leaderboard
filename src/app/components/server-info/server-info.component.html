@@ -1,10 +1,8 @@
-<div class="flex gap-2 text-lg">
-  <div class="flex items-center gap-2">
-    <span class="text-[#1976D2]">Players Online:</span>
-    <span class="text-gray-800 dark:text-white">
-      {{ serverStatus()?.players?.online || "0" }}/{{
-        serverStatus()?.players?.max || "0"
-      }}
-    </span>
-  </div>
+<div class="flex items-center gap-2 text-lg">
+  <span class="text-[#1976D2]">Players Online:</span>
+  <span class="text-gray-800 dark:text-white">
+    {{ serverStatus()?.players?.online || "0" }}/{{
+      serverStatus()?.players?.max || "0"
+    }}
+  </span>
 </div>

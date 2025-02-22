@@ -3,36 +3,16 @@
   class="p-2 rounded-full bg-[#2196F3] text-white hover:bg-[#42A5F5] transition-colors border-2 border-b-4 border-[#1976D2]"
   aria-label="Toggle theme"
 >
-  <svg
+  <img
     *ngIf="!(isDarkMode$ | async)"
-    xmlns="http://www.w3.org/2000/svg"
+    src="assets/images/icons/moon-icon.svg"
+    alt="Moon icon"
     class="h-4 w-4"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-    />
-  </svg>
-  <svg
+  />
+  <img
     *ngIf="isDarkMode$ | async"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    src="assets/images/icons/sun-icon.svg"
+    alt="Sun icon"
     class="h-4 w-4"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path
-      d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
-    />
-  </svg>
+  />
 </button>
