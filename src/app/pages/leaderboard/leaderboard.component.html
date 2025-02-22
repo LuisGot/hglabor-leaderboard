@@ -64,12 +64,46 @@
           <tr>
             <th class="table-head">Place</th>
             <th class="table-head">Player</th>
-            <th class="table-head">XP</th>
-            <th class="table-head">Kills</th>
-            <th class="table-head">Deaths</th>
-            <th class="table-head">Current Streak</th>
-            <th class="table-head">Highest Streak</th>
-            <th class="table-head">Bounty</th>
+            <th
+              class="table-head"
+              [class]="currentSort() === 'xp' ? 'bg-[#2196F3]/30' : ''"
+            >
+              XP
+            </th>
+            <th
+              class="table-head"
+              [class]="currentSort() === 'kills' ? 'bg-[#2196F3]/30' : ''"
+            >
+              Kills
+            </th>
+            <th
+              class="table-head"
+              [class]="currentSort() === 'deaths' ? 'bg-[#2196F3]/30' : ''"
+            >
+              Deaths
+            </th>
+            <th
+              class="table-head"
+              [class]="
+                currentSort() === 'currentKillStreak' ? 'bg-[#2196F3]/30' : ''
+              "
+            >
+              Current Streak
+            </th>
+            <th
+              class="table-head"
+              [class]="
+                currentSort() === 'highestKillStreak' ? 'bg-[#2196F3]/30' : ''
+              "
+            >
+              Highest Streak
+            </th>
+            <th
+              class="table-head"
+              [class]="currentSort() === 'bounty' ? 'bg-[#2196F3]/30' : ''"
+            >
+              Bounty
+            </th>
           </tr>
         </thead>
         <tbody>
