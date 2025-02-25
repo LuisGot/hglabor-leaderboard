@@ -1,8 +1,15 @@
-<div class="flex items-center gap-2 text-lg">
-  <span class="text-[#1976D2]">Players Online:</span>
-  <span class="text-gray-800 dark:text-white">
-    {{ serverStatus()?.players?.online || "0" }}/{{
-      serverStatus()?.players?.max || "0"
-    }}
+<div
+  class="flex items-center gap-2 bg-gray-50 dark:bg-neutral-800 rounded-lg px-3 py-2 border-2 border-[#2196F3]/20 shadow-sm"
+>
+  <div
+    class="w-2 h-2 rounded-full animate-pulse"
+    [ngClass]="serverStatus()?.online ? 'bg-green-500' : 'bg-red-500'"
+  ></div>
+  <span class="text-[#2196F3] font-medium">Players:</span>
+  <span class="text-gray-800 dark:text-white font-bold">
+    {{ serverStatus()?.players?.online || "0"
+    }}<span class="text-gray-500 dark:text-gray-400 font-normal"
+      >/{{ serverStatus()?.players?.max || "0" }}</span
+    >
   </span>
 </div>

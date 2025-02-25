@@ -1,39 +1,52 @@
-<header class="z-40 bg-white dark:bg-neutral-900 shadow-md text-lg">
+<header
+  class="z-40 bg-white dark:bg-neutral-900 shadow-md sticky top-0 opacity-0 animate-fade-in"
+>
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a routerLink="/" class="flex items-center gap-2">
-        <img
-          src="assets/images/hglabor.webp"
-          alt="Logo"
-          class="w-14 h-auto mb-3 pixelated"
-        />
-        <span class="text-gray-800 dark:text-white text-3xl">hglabor.de</span>
+      <a
+        routerLink="/"
+        class="flex items-center gap-3 opacity-0 animate-slide-up"
+      >
+        <div class="rounded-lg overflow-hidden">
+          <img
+            src="assets/images/hglabor.webp"
+            alt="Logo"
+            class="w-14 h-auto mb-3 pixelated"
+          />
+        </div>
+        <span class="text-gray-800 dark:text-white text-xl font-bold"
+          >hglabor.de</span
+        >
       </a>
       <nav
-        class="hidden md:flex items-center space-x-8 text-gray-700 dark:text-gray-200"
+        class="hidden md:flex items-center space-x-8 text-gray-700 dark:text-gray-200 opacity-0 animate-slide-up animation-delay-100"
       >
         <a
           routerLink="/"
-          class="hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
+          class="hover:text-[#2196F3] transition-colors duration-200 font-medium"
           >Leaderboard</a
         >
         <a
           routerLink="/players"
-          class="hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
+          class="hover:text-[#2196F3] transition-colors duration-200 font-medium"
           >Players</a
         >
       </nav>
-      <div class="items-center gap-2 hidden md:flex">
+      <div
+        class="items-center gap-4 hidden md:flex opacity-0 animate-slide-up animation-delay-200"
+      >
         <app-server-info></app-server-info>
-        <app-theme-toggle></app-theme-toggle>
+        <app-theme-toggle
+          class="p-2 rounded-lg transition-colors"
+        ></app-theme-toggle>
       </div>
       <button
         (click)="toggleMobileMenu()"
-        class="md:hidden flex items-center focus:outline-none"
+        class="md:hidden flex items-center focus:outline-none p-2 rounded-lg opacity-0 animate-fade-in"
       >
         <svg
           *ngIf="!mobileMenuOpen"
-          class="w-6 h-6 text-gray-800 dark:text-white"
+          class="w-6 h-6 text-[#2196F3]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -47,7 +60,7 @@
         </svg>
         <svg
           *ngIf="mobileMenuOpen"
-          class="w-6 h-6 text-gray-800 dark:text-white"
+          class="w-6 h-6 text-[#2196F3]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -64,24 +77,27 @@
   </div>
   <div
     *ngIf="mobileMenuOpen"
-    class="md:hidden bg-white dark:bg-neutral-900 shadow-md"
+    class="md:hidden bg-white dark:bg-neutral-900 shadow-md animate-slide-up"
   >
-    <div class="px-4 py-4">
+    <div class="container mx-auto px-4 py-4">
       <div class="flex items-center justify-between gap-4 mb-4">
         <app-server-info></app-server-info>
-        <app-theme-toggle></app-theme-toggle>
+        <app-theme-toggle
+          class="p-2 rounded-lg transition-colors"
+        ></app-theme-toggle>
       </div>
-      <nav class="flex flex-col space-y-2 text-gray-700 dark:text-gray-200">
+      <div class="h-0.5 w-full bg-[#2196F3]/30 rounded-full mb-4"></div>
+      <nav class="flex flex-col space-y-3 text-gray-700 dark:text-gray-200">
         <a
           routerLink="/"
           (click)="toggleMobileMenu()"
-          class="hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
+          class="hover:text-[#2196F3] transition-colors duration-200 font-medium py-2"
           >Leaderboard</a
         >
         <a
           routerLink="/players"
           (click)="toggleMobileMenu()"
-          class="hover:text-[#1976D2] dark:hover:text-[#2196F3] transition-colors duration-200"
+          class="hover:text-[#2196F3] transition-colors duration-200 font-medium py-2"
           >Players</a
         >
       </nav>
