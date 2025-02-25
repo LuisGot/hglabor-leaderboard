@@ -14,7 +14,7 @@
     <div class="space-y-16">
       <div
         *ngFor="let hero of getHeroEntries(); let heroIndex = index"
-        class="hero-card opacity-0 animate-slide-up"
+        class="hero-card opacity-0 animate-slide-up animation-play-once"
         [ngStyle]="{ 'animation-delay': heroIndex * 150 + 'ms' }"
       >
         <div class="mb-6 flex items-center space-x-4">
@@ -47,7 +47,7 @@
               let ability of getAbilityEntries(hero[1]);
               let abilityIndex = index
             "
-            class="mb-10 opacity-0 animate-fade-in"
+            class="mb-10 opacity-0 animate-fade-in animation-play-once"
             [ngStyle]="{
               'animation-delay': heroIndex * 150 + abilityIndex * 100 + 'ms'
             }"
@@ -83,173 +83,208 @@
             <div
               class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg"
             >
-              <table
-                class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
-              >
-                <thead>
-                  <tr class="bg-[#2196F3]/10 dark:bg-[#2196F3]/20">
-                    <th
-                      scope="col"
-                      class="px-6 py-4 text-left text-lg font-semibold text-gray-700 dark:text-white"
-                    >
-                      Attribute
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
-                    >
-                      Current Value
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
-                    >
-                      Level
-                    </th>
-                    <th
-                      scope="col"
-                      class="hidden md:table-cell px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
-                    >
-                      XP
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
-                    >
-                      Progress
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-                  <tr
-                    *ngFor="let stat of ability[1].stats; let statIndex = index"
-                    class="hover:bg-[#2196F3]/5 transition-colors duration-150 opacity-0 animate-fade-in"
-                    [ngStyle]="{
-                      'animation-delay':
-                        heroIndex * 100 +
-                        abilityIndex * 50 +
-                        statIndex * 30 +
-                        200 +
-                        'ms'
-                    }"
+              <div class="overflow-x-auto">
+                <table
+                  class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
+                >
+                  <!-- Table header (desktop only) -->
+                  <thead
+                    class="bg-[#2196F3]/10 dark:bg-[#2196F3]/20 hidden lg:table-header-group"
                   >
-                    <td class="px-6 py-5">
-                      <div class="flex items-center">
-                        <div
-                          class="text-xl font-medium text-gray-800 dark:text-white"
-                        >
-                          {{ stat.name }}
-                          <span
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-6 py-4 text-left text-lg font-semibold text-gray-700 dark:text-white"
+                      >
+                        Attribute
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                      >
+                        Current Value
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                      >
+                        Level
+                      </th>
+                      <th
+                        scope="col"
+                        class="hidden md:table-cell px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                      >
+                        XP
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                      >
+                        Progress
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="divide-y divide-gray-200 dark:divide-neutral-700"
+                  >
+                    <tr
+                      *ngFor="
+                        let stat of ability[1].stats;
+                        let statIndex = index
+                      "
+                      class="hover:bg-[#2196F3]/5 transition-colors duration-150 opacity-0 animate-fade-in animation-play-once"
+                      [ngStyle]="{
+                        'animation-delay':
+                          heroIndex * 100 +
+                          abilityIndex * 50 +
+                          statIndex * 30 +
+                          200 +
+                          'ms'
+                      }"
+                    >
+                      <td class="px-6 py-5">
+                        <div class="flex flex-col sm:flex-row sm:items-center">
+                          <div
+                            class="text-xl font-medium text-gray-800 dark:text-white"
+                          >
+                            {{ stat.name }}
+                          </div>
+                          <div
                             *ngIf="stat.currentLevel === stat.maxLevel"
-                            class="ml-2 text-xs font-medium px-2 py-1 bg-green-500 text-white rounded-full"
+                            class="mt-1 sm:ml-2 sm:mt-0 text-xs font-medium px-2 py-1 bg-green-500 text-white rounded-full self-start sm:self-auto"
                           >
                             MAX
-                          </span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    <td class="px-6 py-5 text-center">
-                      <div class="text-2xl font-bold text-[#2196F3]">
-                        {{ formatValue(stat.currentValue) }}
-                      </div>
-                      <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Base: {{ formatValue(stat.baseValue) }}
-                      </div>
-                    </td>
-
-                    <td class="px-6 py-5 text-center">
-                      <div class="flex flex-col items-center">
-                        <div class="flex items-center mb-1">
+                      <td class="px-6 py-5 text-center">
+                        <div class="flex flex-col items-center justify-center">
                           <span
-                            class="text-2xl font-bold text-gray-800 dark:text-white mr-1"
-                            >{{ stat.currentLevel }}</span
+                            class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                            >Current Value</span
                           >
-                          <span class="text-gray-500 dark:text-gray-400"
-                            >/ {{ stat.maxLevel }}</span
-                          >
-                        </div>
-                        <div
-                          class="relative w-16 h-1 bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
-                        >
+                          <span class="text-2xl font-bold text-[#2196F3]">
+                            {{ formatValue(stat.currentValue) }}
+                          </span>
                           <div
-                            [ngClass]="
-                              getProgressColor(stat.currentLevel, stat.maxLevel)
-                            "
-                            class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
-                            [style.width.%]="
-                              (stat.currentLevel / stat.maxLevel) * 100
-                            "
-                          ></div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td class="hidden md:table-cell px-6 py-5 text-center">
-                      <div class="text-gray-800 dark:text-white">
-                        <div>{{ stat.currentXP }}</div>
-                        <div
-                          *ngIf="stat.xpToNextLevel"
-                          class="text-sm text-gray-500 dark:text-gray-400"
-                        >
-                          {{ stat.xpToNextLevel }} to next
-                        </div>
-                        <div
-                          *ngIf="!stat.xpToNextLevel"
-                          class="text-sm text-green-500"
-                        >
-                          Maximum
-                        </div>
-                      </div>
-                    </td>
-
-                    <td class="px-6 py-5">
-                      <div *ngIf="stat.xpToNextLevel" class="w-full">
-                        <div class="flex justify-between text-sm mb-1">
-                          <span class="text-[#2196F3] font-medium"
-                            >To Lvl {{ stat.currentLevel + 1 }}</span
+                            class="text-sm text-gray-500 dark:text-gray-400 mt-1"
                           >
-                          <span class="text-[#2196F3] font-medium"
-                            >{{
-                              stat.exactProgressToNextLevel.toFixed(1)
-                            }}%</span
-                          >
+                            Base: {{ formatValue(stat.baseValue) }}
+                          </div>
                         </div>
-                        <div
-                          class="relative h-3 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
-                        >
+                      </td>
+
+                      <td class="px-6 py-5 text-center">
+                        <div class="flex flex-col items-center justify-center">
+                          <span
+                            class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                            >Level</span
+                          >
+                          <div class="flex flex-col items-center">
+                            <div class="flex items-center mb-1">
+                              <span
+                                class="text-2xl font-bold text-gray-800 dark:text-white mr-1"
+                                >{{ stat.currentLevel }}</span
+                              >
+                              <span class="text-gray-500 dark:text-gray-400"
+                                >/ {{ stat.maxLevel }}</span
+                              >
+                            </div>
+                            <div
+                              class="relative w-16 h-1 bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                            >
+                              <div
+                                [ngClass]="
+                                  getProgressColor(
+                                    stat.currentLevel,
+                                    stat.maxLevel
+                                  )
+                                "
+                                class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                                [style.width.%]="
+                                  (stat.currentLevel / stat.maxLevel) * 100
+                                "
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="hidden md:table-cell px-6 py-5 text-center">
+                        <div class="flex flex-col items-center justify-center">
+                          <div class="text-gray-800 dark:text-white">
+                            <div>{{ stat.currentXP }}</div>
+                            <div
+                              *ngIf="stat.xpToNextLevel"
+                              class="text-sm text-gray-500 dark:text-gray-400"
+                            >
+                              {{ stat.xpToNextLevel }} to next
+                            </div>
+                            <div
+                              *ngIf="!stat.xpToNextLevel"
+                              class="text-sm text-green-500"
+                            >
+                              Maximum
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-5">
+                        <div class="flex flex-col items-center justify-center">
+                          <span
+                            class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                            >Progress</span
+                          >
+                          <div *ngIf="stat.xpToNextLevel" class="w-full">
+                            <div class="flex justify-between text-sm mb-1">
+                              <span class="text-[#2196F3] font-medium"
+                                >To Lvl {{ stat.currentLevel + 1 }}</span
+                              >
+                              <span class="text-[#2196F3] font-medium"
+                                >{{
+                                  stat.exactProgressToNextLevel.toFixed(1)
+                                }}%</span
+                              >
+                            </div>
+                            <div
+                              class="relative h-3 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                            >
+                              <div
+                                class="absolute top-0 left-0 h-full bg-[#2196F3] rounded-full transition-all duration-300"
+                                [style.width.%]="stat.exactProgressToNextLevel"
+                              ></div>
+                            </div>
+                          </div>
                           <div
-                            class="absolute top-0 left-0 h-full bg-[#2196F3] rounded-full transition-all duration-300"
-                            [style.width.%]="stat.exactProgressToNextLevel"
-                          ></div>
-                        </div>
-                      </div>
-                      <div
-                        *ngIf="!stat.xpToNextLevel"
-                        class="flex items-center justify-center"
-                      >
-                        <span
-                          class="text-green-500 font-medium flex items-center"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 mr-1"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
+                            *ngIf="!stat.xpToNextLevel"
+                            class="flex items-center justify-center"
                           >
-                            <path
-                              fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                          Maxed
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                            <span
+                              class="text-green-500 font-medium flex items-center"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 mr-1"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                              Maxed
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

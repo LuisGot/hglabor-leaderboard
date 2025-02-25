@@ -15,7 +15,7 @@
         <h3 class="text-3xl text-[#2196F3] font-bold tracking-wide">
           Leaderboard
         </h3>
-        <div class="h-1 flex-grow bg-[#2196F3]/30 rounded-full"></div>
+        <div class="h-1 flex-grow bg-[#2196F3]/50 rounded-full"></div>
       </div>
 
       <!-- Search box -->
@@ -26,7 +26,7 @@
             [value]="searchTerm()"
             (input)="onSearch($event)"
             placeholder="Search by username..."
-            class="w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl shadow-sm"
+            class="w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/40 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl shadow-sm placeholder:text-gray-500 dark:placeholder:text-gray-400"
           />
         </div>
       </div>
@@ -40,9 +40,9 @@
             (click)="sortByHeader(sort)"
             class="px-3 py-2 rounded-lg text-sm font-medium flex items-center"
             [ngClass]="{
-              'bg-[#2196F3]/20 border-2 border-[#2196F3]/20':
+              'bg-[#2196F3]/30 border-2 border-[#2196F3]/40 text-gray-900 dark:text-white':
                 currentSort() === sort,
-              'bg-gray-100 dark:bg-neutral-700 border-2 border-transparent':
+              'bg-gray-100 dark:bg-neutral-700 border-2 border-transparent text-gray-700 dark:text-gray-200':
                 currentSort() !== sort
             }"
           >
@@ -322,7 +322,7 @@
               >
                 <td class="px-6 py-5">
                   <span
-                    class="bg-[#2196F3]/10 text-[#2196F3] rounded-lg font-medium px-3 py-1"
+                    class="bg-[#2196F3]/20 text-[#2196F3] dark:text-[#42a5ff] rounded-lg font-medium px-3 py-1"
                   >
                     #{{ player.originalPlace }}
                   </span>
@@ -330,12 +330,12 @@
                 <td class="px-6 py-5">
                   <div class="flex items-center space-x-3">
                     <div
-                      class="rounded-lg overflow-hidden border-2 border-[#2196F3]/20"
+                      class="rounded-lg overflow-hidden border-2 border-[#2196F3]/40"
                     >
                       <img
                         [src]="player.avatar"
                         alt="{{ player.username }} avatar"
-                        class="h-10 w-10 pixelated"
+                        class="min-h-10 min-w-10 max-w-10 max-h-10 aspect-square pixelated"
                       />
                     </div>
                     <span
@@ -429,11 +429,11 @@
               <tr *ngIf="filteredLeaderboard().length === 0">
                 <td colspan="8" class="px-6 py-12 text-center">
                   <div
-                    class="text-2xl font-medium text-gray-500 dark:text-gray-400"
+                    class="text-2xl font-medium text-gray-600 dark:text-gray-300"
                   >
                     No players found matching your search
                   </div>
-                  <p class="mt-2 text-gray-400 dark:text-gray-500">
+                  <p class="mt-2 text-gray-500 dark:text-gray-400">
                     Try a different search term or clear the search box
                   </p>
                 </td>
@@ -444,12 +444,12 @@
 
         <!-- Pagination -->
         <div
-          class="flex justify-center items-center gap-6 p-6 border-t border-gray-200 dark:border-neutral-700"
+          class="flex justify-center items-center gap-2 sm:gap-6 p-4 sm:p-6 border-t border-gray-200 dark:border-neutral-700"
         >
           <button
             (click)="previousPage()"
             [disabled]="currentPage() === 1"
-            class="btn-primary px-6 py-3 rounded-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-primary p-2 sm:px-6 sm:py-3 rounded-lg flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -465,20 +465,22 @@
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Previous
+            <span class="hidden sm:inline">Previous</span>
           </button>
           <div
-            class="flex items-center bg-white dark:bg-neutral-900 px-4 py-2 rounded-lg border-2 border-[#2196F3]/20"
+            class="flex items-center bg-gray-50 dark:bg-neutral-800 px-3 py-1 sm:px-4 sm:py-2 rounded-lg border-2 border-[#2196F3]/40"
           >
-            <span class="text-xl font-medium text-gray-800 dark:text-white">
+            <span
+              class="text-base sm:text-xl font-medium text-gray-800 dark:text-white"
+            >
               Page {{ currentPage() }}
             </span>
           </div>
           <button
             (click)="nextPage()"
-            class="btn-primary px-6 py-3 rounded-lg flex items-center gap-2"
+            class="btn-primary p-2 sm:px-6 sm:py-3 rounded-lg flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base"
           >
-            Next
+            <span class="hidden sm:inline">Next</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
