@@ -1,292 +1,500 @@
 <div class="min-h-screen bg-white dark:bg-neutral-900 relative overflow-hidden">
-  <div class="flex justify-center my-8 opacity-0 animate-fade-in">
-    <img
-      src="assets/images/norisk-logo.png"
-      alt="NoRisk"
-      class="h-32 pixelated opacity-0 animate-bounce-in"
-    />
-  </div>
-
-  <div
-    class="container mx-auto px-4 opacity-0 animate-fade-in animation-delay-150"
-  >
-    <div class="mb-4 opacity-0 animate-slide-up animation-delay-400">
-      <input
-        type="text"
-        [value]="searchTerm()"
-        (input)="onSearch($event)"
-        placeholder="Search by username..."
-        class="w-full px-4 py-2 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl"
+  <div class="container mx-auto px-4 py-8">
+    <!-- Logo -->
+    <div class="flex justify-center my-8 opacity-0 animate-fade-in">
+      <img
+        src="assets/images/norisk-logo.png"
+        alt="NoRisk"
+        class="h-24 pixelated opacity-0 animate-bounce-in"
       />
     </div>
 
-    <div
-      class="overflow-x-auto bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-lg border-2 border-[#2196F3]/30 opacity-0 animate-slide-up animation-delay-500"
-    >
-      <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
-        <div
-          class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2196F3]"
-        ></div>
+    <div class="opacity-0 animate-slide-up animation-delay-300">
+      <!-- Header -->
+      <div class="mb-6 flex items-center space-x-4">
+        <h3 class="text-3xl text-[#2196F3] font-bold tracking-wide">
+          Leaderboard
+        </h3>
+        <div class="h-1 flex-grow bg-[#2196F3]/30 rounded-full"></div>
       </div>
-      <table
-        *ngIf="!isLoading()"
-        class="w-full border-separate border-spacing-1 text-sm md:text-base"
+
+      <!-- Search box -->
+      <div class="mb-6 opacity-0 animate-slide-up animation-delay-400">
+        <div class="relative">
+          <input
+            type="text"
+            [value]="searchTerm()"
+            (input)="onSearch($event)"
+            placeholder="Search by username..."
+            class="w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl shadow-sm"
+          />
+        </div>
+      </div>
+
+      <!-- Mobile sort options -->
+      <div
+        class="flex lg:hidden flex-wrap gap-2 mb-4 px-2 opacity-0 animate-slide-up animation-delay-450"
       >
-        <thead>
-          <tr>
-            <th class="table-head">Place</th>
-            <th class="table-head">Player</th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="currentSort() === 'xp' ? 'bg-[#2196F3]/30' : ''"
-              (click)="sortByHeader('xp')"
-            >
-              <div class="flex items-center justify-center">
-                XP
-                <span *ngIf="currentSort() === 'xp'" class="ml-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="currentSort() === 'kills' ? 'bg-[#2196F3]/30' : ''"
-              (click)="sortByHeader('kills')"
-            >
-              <div class="flex items-center justify-center">
-                Kills
-                <span *ngIf="currentSort() === 'kills'" class="ml-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="currentSort() === 'deaths' ? 'bg-[#2196F3]/30' : ''"
-              (click)="sortByHeader('deaths')"
-            >
-              <div class="flex items-center justify-center">
-                Deaths
-                <span *ngIf="currentSort() === 'deaths'" class="ml-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="
-                currentSort() === 'currentKillStreak' ? 'bg-[#2196F3]/30' : ''
-              "
-              (click)="sortByHeader('currentKillStreak')"
-            >
-              <div class="flex items-center justify-center">
-                Current Streak
-                <span
-                  *ngIf="currentSort() === 'currentKillStreak'"
-                  class="ml-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="
-                currentSort() === 'highestKillStreak' ? 'bg-[#2196F3]/30' : ''
-              "
-              (click)="sortByHeader('highestKillStreak')"
-            >
-              <div class="flex items-center justify-center">
-                Highest Streak
-                <span
-                  *ngIf="currentSort() === 'highestKillStreak'"
-                  class="ml-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-            <th
-              class="table-head cursor-pointer"
-              [class]="currentSort() === 'bounty' ? 'bg-[#2196F3]/30' : ''"
-              (click)="sortByHeader('bounty')"
-            >
-              <div class="flex items-center justify-center">
-                Bounty
-                <span *ngIf="currentSort() === 'bounty'" class="ml-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      *ngIf="sortDirection() === 'desc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                    <path
-                      *ngIf="sortDirection() === 'asc'"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let player of filteredLeaderboard(); let i = index"
-            class="transition-colors hover:bg-[#2196F3]/5 opacity-0 animate-fade-in cursor-pointer"
-            [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
-            [routerLink]="['/player', player.playerId]"
+        <ng-container *ngFor="let sort of sortOptions">
+          <button
+            (click)="sortByHeader(sort)"
+            class="px-3 py-2 rounded-lg text-sm font-medium flex items-center"
+            [ngClass]="{
+              'bg-[#2196F3]/20 border-2 border-[#2196F3]/20':
+                currentSort() === sort,
+              'bg-gray-100 dark:bg-neutral-700 border-2 border-transparent':
+                currentSort() !== sort
+            }"
           >
-            <td class="table-cell">
-              {{ player.originalPlace }}
-            </td>
-            <td class="table-cell">
-              <div class="flex flex-row items-center space-x-2">
-                <img
-                  [src]="player.avatar"
-                  alt="{{ player.username }} avatar"
-                  class="h-8 w-8 pixelated"
-                />
-                <span>{{ player.username }}</span>
-              </div>
-            </td>
-            <td class="table-cell">{{ player.xp }}</td>
-            <td class="table-cell">{{ player.kills }}</td>
-            <td class="table-cell">{{ player.deaths }}</td>
-            <td class="table-cell">{{ player.currentKillStreak }}</td>
-            <td class="table-cell">{{ player.highestKillStreak }}</td>
-            <td class="table-cell">{{ player.bounty }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="flex justify-center items-center gap-4 p-4">
-        <button
-          (click)="previousPage()"
-          [disabled]="currentPage() === 1"
-          class="btn-primary px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            <span>
+              {{
+                sort === "xp"
+                  ? "XP"
+                  : sort === "currentKillStreak"
+                  ? "Current Streak"
+                  : sort === "highestKillStreak"
+                  ? "Highest Streak"
+                  : (sort | titlecase)
+              }}
+            </span>
+            <svg
+              *ngIf="currentSort() === sort"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 ml-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                *ngIf="sortDirection() === 'desc'"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+              <path
+                *ngIf="sortDirection() === 'asc'"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </button>
+        </ng-container>
+      </div>
+
+      <!-- Main content card -->
+      <div
+        class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg opacity-0 animate-slide-up animation-delay-500"
+      >
+        <!-- Loading indicator -->
+        <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
+          <div
+            class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2196F3]"
+          ></div>
+        </div>
+
+        <!-- Leaderboard table -->
+        <div class="overflow-x-auto" *ngIf="!isLoading()">
+          <table class="min-w-full">
+            <!-- Table header (desktop only) -->
+            <thead
+              class="bg-[#2196F3]/10 dark:bg-[#2196F3]/20 hidden lg:table-header-group"
+            >
+              <tr>
+                <th
+                  class="px-6 py-4 text-left text-lg font-semibold text-gray-700 dark:text-white"
+                >
+                  Place
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-lg font-semibold text-gray-700 dark:text-white"
+                >
+                  Player
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{ 'bg-[#2196F3]/30': currentSort() === 'xp' }"
+                  (click)="sortByHeader('xp')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>XP</span>
+                    <span *ngIf="currentSort() === 'xp'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{ 'bg-[#2196F3]/30': currentSort() === 'kills' }"
+                  (click)="sortByHeader('kills')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>Kills</span>
+                    <span *ngIf="currentSort() === 'kills'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{ 'bg-[#2196F3]/30': currentSort() === 'deaths' }"
+                  (click)="sortByHeader('deaths')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>Deaths</span>
+                    <span *ngIf="currentSort() === 'deaths'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{
+                    'bg-[#2196F3]/30': currentSort() === 'currentKillStreak'
+                  }"
+                  (click)="sortByHeader('currentKillStreak')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>Current Streak</span>
+                    <span *ngIf="currentSort() === 'currentKillStreak'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{
+                    'bg-[#2196F3]/30': currentSort() === 'highestKillStreak'
+                  }"
+                  (click)="sortByHeader('highestKillStreak')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>Highest Streak</span>
+                    <span *ngIf="currentSort() === 'highestKillStreak'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white cursor-pointer"
+                  [ngClass]="{ 'bg-[#2196F3]/30': currentSort() === 'bounty' }"
+                  (click)="sortByHeader('bounty')"
+                >
+                  <div class="flex items-center justify-center space-x-1">
+                    <span>Bounty</span>
+                    <span *ngIf="currentSort() === 'bounty'">
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          *ngIf="sortDirection() === 'desc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                        <path
+                          *ngIf="sortDirection() === 'asc'"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+
+            <!-- Table body -->
+            <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+              <tr
+                *ngFor="let player of filteredLeaderboard(); let i = index"
+                class="transition-colors hover:bg-[#2196F3]/5 animate-fade-in cursor-pointer"
+                [ngStyle]="{ 'animation-delay': i * 40 + 'ms' }"
+                [routerLink]="['/player', player.playerId]"
+              >
+                <td class="px-6 py-5">
+                  <span
+                    class="bg-[#2196F3]/10 text-[#2196F3] rounded-lg font-medium px-3 py-1"
+                  >
+                    #{{ player.originalPlace }}
+                  </span>
+                </td>
+                <td class="px-6 py-5">
+                  <div class="flex items-center space-x-3">
+                    <div
+                      class="rounded-lg overflow-hidden border-2 border-[#2196F3]/20"
+                    >
+                      <img
+                        [src]="player.avatar"
+                        alt="{{ player.username }} avatar"
+                        class="h-10 w-10 pixelated"
+                      />
+                    </div>
+                    <span
+                      class="font-medium text-gray-800 dark:text-white text-lg"
+                    >
+                      {{ player.username }}
+                    </span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >XP</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.xp
+                    }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >Kills</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.kills
+                    }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >Deaths</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.deaths
+                    }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >Current Streak</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.currentKillStreak
+                    }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >Highest Streak</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.highestKillStreak
+                    }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <div
+                    class="flex flex-col lg:flex-row items-center justify-center"
+                  >
+                    <span
+                      class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
+                      >Bounty</span
+                    >
+                    <span class="text-xl font-bold text-[#2196F3]">{{
+                      player.bounty
+                    }}</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Empty state if no search results -->
+              <tr *ngIf="filteredLeaderboard().length === 0">
+                <td colspan="8" class="px-6 py-12 text-center">
+                  <div
+                    class="text-2xl font-medium text-gray-500 dark:text-gray-400"
+                  >
+                    No players found matching your search
+                  </div>
+                  <p class="mt-2 text-gray-400 dark:text-gray-500">
+                    Try a different search term or clear the search box
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div
+          class="flex justify-center items-center gap-6 p-6 border-t border-gray-200 dark:border-neutral-700"
         >
-          Previous
-        </button>
-        <span class="text-xl text-gray-800 dark:text-white">
-          Page {{ currentPage() }}
-        </span>
-        <button (click)="nextPage()" class="btn-primary px-6 py-2">Next</button>
+          <button
+            (click)="previousPage()"
+            [disabled]="currentPage() === 1"
+            class="btn-primary px-6 py-3 rounded-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Previous
+          </button>
+          <div
+            class="flex items-center bg-white dark:bg-neutral-900 px-4 py-2 rounded-lg border-2 border-[#2196F3]/20"
+          >
+            <span class="text-xl font-medium text-gray-800 dark:text-white">
+              Page {{ currentPage() }}
+            </span>
+          </div>
+          <button
+            (click)="nextPage()"
+            class="btn-primary px-6 py-3 rounded-lg flex items-center gap-2"
+          >
+            Next
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
