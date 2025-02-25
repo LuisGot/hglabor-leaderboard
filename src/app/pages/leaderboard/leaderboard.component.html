@@ -10,34 +10,6 @@
   <div
     class="container mx-auto px-4 opacity-0 animate-fade-in animation-delay-150"
   >
-    <div
-      class="flex flex-wrap gap-4 mb-8 opacity-0 animate-slide-up animation-delay-300"
-    >
-      <div class="relative inline-block w-full md:w-auto">
-        <select
-          [ngModel]="currentSort()"
-          (ngModelChange)="fetchLeaderboardData($event)"
-          class="btn-primary w-full md:w-auto px-6 pr-12 py-2 appearance-none cursor-pointer"
-        >
-          <option value="xp">XP</option>
-          <option value="kills">Kills</option>
-          <option value="deaths">Deaths</option>
-          <option value="currentKillStreak">Current Streak</option>
-          <option value="highestKillStreak">Highest Streak</option>
-          <option value="bounty">Bounty</option>
-        </select>
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white"
-        >
-          <img
-            src="assets/images/icons/dropdown-icon.svg"
-            alt="Dropdown arrow"
-            class="h-5 w-5"
-          />
-        </div>
-      </div>
-    </div>
-
     <div class="mb-4 opacity-0 animate-slide-up animation-delay-400">
       <input
         type="text"
@@ -65,44 +37,212 @@
             <th class="table-head">Place</th>
             <th class="table-head">Player</th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="currentSort() === 'xp' ? 'bg-[#2196F3]/30' : ''"
+              (click)="sortByHeader('xp')"
             >
-              XP
+              <div class="flex items-center justify-center">
+                XP
+                <span *ngIf="currentSort() === 'xp'" class="ml-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="currentSort() === 'kills' ? 'bg-[#2196F3]/30' : ''"
+              (click)="sortByHeader('kills')"
             >
-              Kills
+              <div class="flex items-center justify-center">
+                Kills
+                <span *ngIf="currentSort() === 'kills'" class="ml-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="currentSort() === 'deaths' ? 'bg-[#2196F3]/30' : ''"
+              (click)="sortByHeader('deaths')"
             >
-              Deaths
+              <div class="flex items-center justify-center">
+                Deaths
+                <span *ngIf="currentSort() === 'deaths'" class="ml-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="
                 currentSort() === 'currentKillStreak' ? 'bg-[#2196F3]/30' : ''
               "
+              (click)="sortByHeader('currentKillStreak')"
             >
-              Current Streak
+              <div class="flex items-center justify-center">
+                Current Streak
+                <span
+                  *ngIf="currentSort() === 'currentKillStreak'"
+                  class="ml-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="
                 currentSort() === 'highestKillStreak' ? 'bg-[#2196F3]/30' : ''
               "
+              (click)="sortByHeader('highestKillStreak')"
             >
-              Highest Streak
+              <div class="flex items-center justify-center">
+                Highest Streak
+                <span
+                  *ngIf="currentSort() === 'highestKillStreak'"
+                  class="ml-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
             <th
-              class="table-head"
+              class="table-head cursor-pointer"
               [class]="currentSort() === 'bounty' ? 'bg-[#2196F3]/30' : ''"
+              (click)="sortByHeader('bounty')"
             >
-              Bounty
+              <div class="flex items-center justify-center">
+                Bounty
+                <span *ngIf="currentSort() === 'bounty'" class="ml-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      *ngIf="sortDirection() === 'desc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                    <path
+                      *ngIf="sortDirection() === 'asc'"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
           </tr>
         </thead>

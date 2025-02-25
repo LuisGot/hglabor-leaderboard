@@ -21,6 +21,7 @@ export class LeaderboardComponent {
   isLoading = signal<boolean>(false);
   currentPage = signal<number>(1);
   currentSort = signal<SortKey>('xp');
+  sortDirection = signal<'asc' | 'desc'>('desc');
   searchTerm = signal<string>('');
   sortOptions: SortKey[] = [
     'xp',
@@ -35,10 +36,21 @@ export class LeaderboardComponent {
     this.fetchLeaderboardData('xp'); // Initial data fetch
   }
 
-  fetchLeaderboardData(sort: SortKey, page?: number) {
+  fetchLeaderboardData(
+    sort: SortKey,
+    page?: number,
+    toggleDirection: boolean = false
+  ) {
     if (page !== undefined) {
       this.currentPage.set(page);
     }
+
+    if (toggleDirection && this.currentSort() === sort) {
+      this.sortDirection.set(this.sortDirection() === 'desc' ? 'asc' : 'desc');
+    } else if (toggleDirection) {
+      this.sortDirection.set('desc');
+    }
+
     this.currentSort.set(sort);
     this.isLoading.set(true);
 
@@ -50,9 +62,18 @@ export class LeaderboardComponent {
           ...player,
           originalPlace: (this.currentPage() - 1) * 100 + index + 1,
         }));
+
+        if (this.sortDirection() === 'asc') {
+          playersWithPlace.reverse();
+        }
+
         this.leaderboard.set(playersWithPlace);
         this.filterLeaderboard(this.searchTerm());
       });
+  }
+
+  sortByHeader(sort: SortKey) {
+    this.fetchLeaderboardData(sort, undefined, true);
   }
 
   filterLeaderboard(searchTerm: string) {
