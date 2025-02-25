@@ -1,38 +1,255 @@
-<div class="space-y-8">
-  <div *ngFor="let hero of getHeroEntries()" class="card">
-    <h3 class="text-2xl text-[#1976D2] capitalize mb-6">
-      {{ hero[0] }}
-    </h3>
+<div
+  class="min-h-screen bg-white dark:bg-neutral-900 rounded-lg relative overflow-hidden"
+>
+  <div
+    *ngIf="isLoading"
+    class="flex justify-center items-center py-16 opacity-0 animate-fade-in"
+  >
+    <div
+      class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2196F3]"
+    ></div>
+  </div>
 
-    <div class="space-y-6">
+  <div class="container mx-auto px-4 py-8">
+    <div class="space-y-16">
       <div
-        *ngFor="let ability of getAbilityEntries(hero[1])"
-        class="bg-gray-50 dark:bg-neutral-800 p-4 rounded-lg"
+        *ngFor="let hero of getHeroEntries(); let heroIndex = index"
+        class="hero-card opacity-0 animate-slide-up"
+        [ngStyle]="{ 'animation-delay': heroIndex * 150 + 'ms' }"
       >
-        <h4 class="text-xl text-[#1976D2] capitalize mb-4">
-          {{ formatAbilityName(ability[0]) }}
-        </h4>
-
-        <div class="space-y-4">
-          <div
-            *ngFor="let stat of getStatEntries(ability[1])"
-            class="space-y-2"
+        <div class="mb-6 flex items-center space-x-4">
+          <h3
+            class="text-4xl text-[#2196F3] capitalize font-bold tracking-wide"
           >
-            <div class="flex justify-between items-center">
-              <span class="text-gray-700 dark:text-neutral-200 capitalize">
-                {{ formatStatName(stat[0]) }}
-              </span>
-              <span class="text-gray-600 dark:text-neutral-200">
-                {{ stat[1].experiencePoints }}
-              </span>
+            {{ hero[0] }}
+          </h3>
+          <div class="h-1 flex-grow bg-[#2196F3]/30 rounded-full"></div>
+          <div
+            *ngIf="!hero[1].detailsLoaded"
+            class="animate-pulse bg-gray-200 dark:bg-neutral-700 text-gray-500 dark:text-gray-400 px-4 py-1 rounded-full text-lg"
+          >
+            Loading...
+          </div>
+        </div>
+
+        <div
+          *ngIf="!hero[1].detailsLoaded"
+          class="bg-gray-50 dark:bg-neutral-800 rounded-xl p-12 text-center"
+        >
+          <div class="text-2xl text-gray-500 dark:text-gray-400 animate-pulse">
+            Fetching hero details...
+          </div>
+        </div>
+
+        <div *ngIf="hero[1].detailsLoaded">
+          <div
+            *ngFor="
+              let ability of getAbilityEntries(hero[1]);
+              let abilityIndex = index
+            "
+            class="mb-10 opacity-0 animate-fade-in"
+            [ngStyle]="{
+              'animation-delay': heroIndex * 150 + abilityIndex * 100 + 'ms'
+            }"
+          >
+            <div class="mb-4 flex items-center">
+              <div class="mr-3 p-1 rounded-lg bg-[#2196F3]/10">
+                <div
+                  class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2196F3]/20 text-[#2196F3]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h4
+                class="text-3xl text-gray-800 dark:text-white capitalize font-medium"
+              >
+                {{ ability[1].name }}
+              </h4>
             </div>
+
             <div
-              class="w-full bg-gray-200 dark:bg-neutral-500 rounded-full h-2.5"
+              class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg"
             >
-              <div
-                class="bg-[#2196F3] h-2.5 rounded-full transition-all duration-500"
-                [style.width.%]="(stat[1].experiencePoints / 100000) * 100"
-              ></div>
+              <table
+                class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
+              >
+                <thead>
+                  <tr class="bg-[#2196F3]/10 dark:bg-[#2196F3]/20">
+                    <th
+                      scope="col"
+                      class="px-6 py-4 text-left text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Attribute
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Current Value
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Level
+                    </th>
+                    <th
+                      scope="col"
+                      class="hidden md:table-cell px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      XP
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-4 text-center text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Progress
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                  <tr
+                    *ngFor="let stat of ability[1].stats; let statIndex = index"
+                    class="hover:bg-[#2196F3]/5 transition-colors duration-150 opacity-0 animate-fade-in"
+                    [ngStyle]="{
+                      'animation-delay':
+                        heroIndex * 100 +
+                        abilityIndex * 50 +
+                        statIndex * 30 +
+                        200 +
+                        'ms'
+                    }"
+                  >
+                    <td class="px-6 py-5">
+                      <div class="flex items-center">
+                        <div
+                          class="text-xl font-medium text-gray-800 dark:text-white"
+                        >
+                          {{ stat.name }}
+                          <span
+                            *ngIf="stat.currentLevel === stat.maxLevel"
+                            class="ml-2 text-xs font-medium px-2 py-1 bg-green-500 text-white rounded-full"
+                          >
+                            MAX
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="px-6 py-5 text-center">
+                      <div class="text-2xl font-bold text-[#2196F3]">
+                        {{ formatValue(stat.currentValue) }}
+                      </div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Base: {{ formatValue(stat.baseValue) }}
+                      </div>
+                    </td>
+
+                    <td class="px-6 py-5 text-center">
+                      <div class="flex flex-col items-center">
+                        <div class="flex items-center mb-1">
+                          <span
+                            class="text-2xl font-bold text-gray-800 dark:text-white mr-1"
+                            >{{ stat.currentLevel }}</span
+                          >
+                          <span class="text-gray-500 dark:text-gray-400"
+                            >/ {{ stat.maxLevel }}</span
+                          >
+                        </div>
+                        <div
+                          class="relative w-16 h-1 bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                        >
+                          <div
+                            [ngClass]="
+                              getProgressColor(stat.currentLevel, stat.maxLevel)
+                            "
+                            class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                            [style.width.%]="
+                              (stat.currentLevel / stat.maxLevel) * 100
+                            "
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="hidden md:table-cell px-6 py-5 text-center">
+                      <div class="text-gray-800 dark:text-white">
+                        <div>{{ stat.currentXP }}</div>
+                        <div
+                          *ngIf="stat.xpToNextLevel"
+                          class="text-sm text-gray-500 dark:text-gray-400"
+                        >
+                          {{ stat.xpToNextLevel }} to next
+                        </div>
+                        <div
+                          *ngIf="!stat.xpToNextLevel"
+                          class="text-sm text-green-500"
+                        >
+                          Maximum
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="px-6 py-5">
+                      <div *ngIf="stat.xpToNextLevel" class="w-full">
+                        <div class="flex justify-between text-sm mb-1">
+                          <span class="text-[#2196F3] font-medium"
+                            >To Lvl {{ stat.currentLevel + 1 }}</span
+                          >
+                          <span class="text-[#2196F3] font-medium"
+                            >{{
+                              stat.exactProgressToNextLevel.toFixed(1)
+                            }}%</span
+                          >
+                        </div>
+                        <div
+                          class="relative h-3 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                        >
+                          <div
+                            class="absolute top-0 left-0 h-full bg-[#2196F3] rounded-full transition-all duration-300"
+                            [style.width.%]="stat.exactProgressToNextLevel"
+                          ></div>
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="!stat.xpToNextLevel"
+                        class="flex items-center justify-center"
+                      >
+                        <span
+                          class="text-green-500 font-medium flex items-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 mr-1"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                          Maxed
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

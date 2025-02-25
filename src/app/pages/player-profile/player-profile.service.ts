@@ -24,6 +24,25 @@ export interface PlayerDBResponse {
   };
 }
 
+export interface HeroProperty {
+  type: string;
+  baseValue: number;
+  maxLevel: number;
+  name: string;
+  modifier: {
+    type: string;
+    steps: number[];
+  };
+  levelScale: number;
+}
+
+export interface HeroDetails {
+  internalKey: string;
+  properties: {
+    [abilityKey: string]: HeroProperty[];
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,7 +50,6 @@ export class PlayerProfileService {
   constructor(private http: HttpClient) {}
 
   getPlayerProfile(uuid: string): Observable<PlayerProfile> {
-    // Combine stats and player info data
     return forkJoin({
       stats: this.http.get<PlayerProfile>(
         `https://api.hglabor.de/stats/FFA/${uuid}`
@@ -45,6 +63,12 @@ export class PlayerProfileService {
         username: playerInfo.data.player.username,
         avatar: playerInfo.data.player.avatar,
       }))
+    );
+  }
+
+  getHeroDetails(heroKey: string): Observable<HeroDetails> {
+    return this.http.get<HeroDetails>(
+      `https://api.hglabor.de/ffa/hero/${heroKey}`
     );
   }
 }
