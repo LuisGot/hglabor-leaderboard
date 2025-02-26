@@ -1,17 +1,18 @@
 <div class="bg-white dark:bg-neutral-900 relative overflow-hidden min-h-screen">
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 py-4 sm:py-8">
+    <!-- Header section -->
     <div
-      class="mb-6 flex justify-between items-center opacity-0 animate-slide-up animation-delay-300"
+      class="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center opacity-0 animate-slide-up animation-delay-300 space-y-4 sm:space-y-0"
     >
       <div class="flex items-center space-x-4 flex-grow">
-        <h3 class="text-3xl text-[#2196F3] font-bold tracking-wide">
+        <h3 class="text-2xl sm:text-3xl text-[#2196F3] font-bold tracking-wide">
           {{ compareMode() ? "Player Comparison" : "Player Search" }}
         </h3>
         <div class="h-1 flex-grow bg-[#2196F3]/30 rounded-full"></div>
       </div>
       <button
         (click)="toggleCompareMode()"
-        class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 ml-4"
+        class="btn-primary w-full sm:w-auto px-4 sm:px-6 py-2 rounded-lg flex items-center justify-center sm:justify-start gap-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +35,7 @@
     <!-- Error message -->
     <div
       *ngIf="error()"
-      class="mb-6 max-w-2xl mx-auto opacity-0 animate-fade-in"
+      class="mb-4 sm:mb-6 max-w-2xl mx-auto opacity-0 animate-fade-in"
     >
       <div
         class="bg-red-50 dark:bg-red-900/20 backdrop-blur-sm rounded-xl border-2 border-red-500/30 p-4 text-center shadow-lg"
@@ -46,22 +47,22 @@
     <!-- Loading indicator -->
     <div
       *ngIf="isLoading()"
-      class="flex justify-center items-center py-8 opacity-0 animate-fade-in"
+      class="flex justify-center items-center py-6 sm:py-8 opacity-0 animate-fade-in"
     >
       <div
-        class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#2196F3]"
+        class="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-4 border-b-4 border-[#2196F3]"
       ></div>
     </div>
 
     <!-- Standard search section -->
     <div
       *ngIf="!compareMode()"
-      class="max-w-2xl mx-auto overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg p-8 opacity-0 animate-slide-up animation-delay-400"
+      class="max-w-2xl mx-auto overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg p-4 sm:p-8 opacity-0 animate-slide-up animation-delay-400"
     >
-      <div class="mb-6">
+      <div class="mb-4 sm:mb-6">
         <label
           for="uuid"
-          class="block text-xl font-medium text-gray-800 dark:text-white mb-3"
+          class="block text-lg sm:text-xl font-medium text-gray-800 dark:text-white mb-2 sm:mb-3"
         >
           Enter Player UUID
         </label>
@@ -70,13 +71,13 @@
           id="uuid"
           [(ngModel)]="uuid"
           placeholder="Enter player UUID..."
-          class="w-full px-4 py-3 bg-white dark:bg-neutral-900 rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-xl shadow-sm"
+          class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-neutral-900 rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-base sm:text-xl shadow-sm"
         />
       </div>
 
       <button
         (click)="searchPlayer()"
-        class="w-full btn-primary px-6 py-3 rounded-lg flex items-center justify-center gap-2 text-lg font-medium"
+        class="w-full btn-primary px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 text-base sm:text-lg font-medium"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -103,26 +104,28 @@
     >
       <!-- Add player to comparison form -->
       <div
-        class="max-w-2xl mx-auto overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg p-8 mb-8"
+        class="max-w-2xl mx-auto overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg p-4 sm:p-8 mb-4 sm:mb-8"
       >
-        <div class="mb-6">
+        <div class="mb-0 sm:mb-6">
           <label
             for="compare-uuid"
-            class="block text-xl font-medium text-gray-800 dark:text-white mb-3"
+            class="block text-lg sm:text-xl font-medium text-gray-800 dark:text-white mb-2 sm:mb-3"
           >
             Add Player to Comparison
           </label>
-          <div class="flex space-x-4">
+          <div
+            class="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0"
+          >
             <input
               type="text"
               id="compare-uuid"
               [(ngModel)]="uuid"
               placeholder="Enter player UUID..."
-              class="flex-grow px-4 py-3 bg-white dark:bg-neutral-900 rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-lg shadow-sm"
+              class="flex-grow px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-neutral-900 rounded-lg border-2 border-[#2196F3]/30 focus:outline-none focus:border-[#2196F3] text-gray-800 dark:text-white text-base sm:text-lg shadow-sm"
             />
             <button
               (click)="addPlayerToComparison()"
-              class="btn-primary px-6 py-3 rounded-lg flex items-center justify-center gap-2 text-lg font-medium"
+              class="btn-primary sm:min-w-[100px] px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 text-base sm:text-lg font-medium"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -147,28 +150,28 @@
       <!-- Players comparison section -->
       <div
         *ngIf="playerProfiles().length > 0"
-        class="space-y-12 opacity-0 animate-slide-up animation-delay-500"
+        class="space-y-8 sm:space-y-12 opacity-0 animate-slide-up animation-delay-500"
       >
         <!-- Player avatars and usernames -->
-        <div class="flex flex-wrap justify-center gap-8">
+        <div class="flex flex-wrap justify-center gap-4 sm:gap-8">
           <div
             *ngFor="let player of playerProfiles(); let i = index"
-            class="flex flex-col items-center space-y-4"
+            class="flex flex-col items-center space-y-2 sm:space-y-4"
           >
             <div class="relative">
               <img
                 [src]="player.avatar"
                 [alt]="player.username + ' avatar'"
-                class="h-28 w-28 pixelated border-4 border-[#2196F3]/30 rounded-lg"
+                class="h-20 w-20 sm:h-28 sm:w-28 pixelated border-4 border-[#2196F3]/30 rounded-lg"
               />
               <button
                 (click)="removePlayerFromComparison(i)"
-                class="absolute -top-3 -right-3 bg-red-500 text-white rounded-full h-8 w-8 flex items-center justify-center shadow-md hover:bg-red-600 transition-colors"
+                class="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-red-500 text-white rounded-full h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center shadow-md hover:bg-red-600 transition-colors"
                 title="Remove player"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  class="h-4 w-4 sm:h-5 sm:w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -183,11 +186,13 @@
               </button>
             </div>
             <div class="flex flex-col items-center">
-              <h2 class="text-2xl text-[#2196F3] font-bold tracking-wide">
+              <h2
+                class="text-xl sm:text-2xl text-[#2196F3] font-bold tracking-wide"
+              >
                 {{ player.username }}
               </h2>
               <div
-                class="text-sm text-gray-500 dark:text-gray-400 truncate max-w-[120px]"
+                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate max-w-[120px]"
               >
                 {{ player.playerId }}
               </div>
@@ -197,15 +202,154 @@
 
         <!-- Stats comparison section -->
         <div class="opacity-0 animate-slide-up animation-delay-600">
-          <div class="mb-6 flex items-center space-x-4">
-            <h3 class="text-3xl text-[#2196F3] font-bold tracking-wide">
+          <div class="mb-4 sm:mb-6 flex items-center space-x-4">
+            <h3
+              class="text-xl sm:text-3xl text-[#2196F3] font-bold tracking-wide"
+            >
               Player Stats Comparison
             </h3>
             <div class="h-1 flex-grow bg-[#2196F3]/30 rounded-full"></div>
           </div>
 
+          <!-- Mobile comparison cards (shown on small screens only) -->
+          <div class="block md:hidden space-y-6">
+            <div
+              *ngFor="let player of playerProfiles()"
+              class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg mb-4"
+            >
+              <div
+                class="p-4 border-b border-[#2196F3]/30 bg-gray-100 dark:bg-neutral-700"
+              >
+                <h4 class="text-xl font-bold text-[#2196F3] text-center">
+                  {{ player.username }}
+                </h4>
+              </div>
+
+              <!-- XP Item -->
+              <div class="p-4 border-b border-[#2196F3]/10">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/xp-icon.gif"
+                      alt="XP"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >XP</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.xp }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kills Item -->
+              <div class="p-4 border-b border-[#2196F3]/10">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/kill-icon.webp"
+                      alt="Kills"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >Kills</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.kills }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Deaths Item -->
+              <div class="p-4 border-b border-[#2196F3]/10">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/death-icon.jpg"
+                      alt="Deaths"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >Deaths</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.deaths }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Current Kill Streak Item -->
+              <div class="p-4 border-b border-[#2196F3]/10">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/streak-icon.webp"
+                      alt="Current Streak"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >Current Kill Streak</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.currentKillStreak }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Highest Kill Streak Item -->
+              <div class="p-4 border-b border-[#2196F3]/10">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/highest-streak-icon.webp"
+                      alt="Highest Streak"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >Highest Kill Streak</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.highestKillStreak }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bounty Item -->
+              <div class="p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/images/bounty-icon.webp"
+                      alt="Bounty"
+                      class="w-6 h-6 pixelated"
+                    />
+                    <span
+                      class="text-base font-medium text-gray-800 dark:text-white"
+                      >Bounty</span
+                    >
+                  </div>
+                  <div class="text-xl font-bold text-[#2196F3]">
+                    {{ player.bounty }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desktop comparison table (hidden on mobile) -->
           <div
-            class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg mb-12"
+            class="hidden md:block overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg mb-12"
           >
             <div class="overflow-x-auto">
               <table class="min-w-full">
@@ -372,12 +516,14 @@
       <!-- Empty state when no players added -->
       <div
         *ngIf="!isLoading() && playerProfiles().length === 0"
-        class="text-center py-12 opacity-0 animate-fade-in"
+        class="text-center py-8 sm:py-12 opacity-0 animate-fade-in"
       >
-        <div class="text-2xl text-gray-500 dark:text-gray-400 mb-4">
+        <div
+          class="text-xl sm:text-2xl text-gray-500 dark:text-gray-400 mb-3 sm:mb-4"
+        >
           No players added to comparison yet
         </div>
-        <div class="text-lg text-gray-500 dark:text-gray-400">
+        <div class="text-base sm:text-lg text-gray-500 dark:text-gray-400">
           Add players using the form above to compare their stats
         </div>
       </div>
@@ -385,14 +531,16 @@
       <!-- Loading state when restoring saved players -->
       <div
         *ngIf="isLoading() && compareMode()"
-        class="text-center py-12 opacity-0 animate-fade-in"
+        class="text-center py-8 sm:py-12 opacity-0 animate-fade-in"
       >
         <div class="flex flex-col items-center justify-center">
-          <div class="mb-4 text-2xl text-gray-500 dark:text-gray-400">
+          <div
+            class="mb-4 text-xl sm:text-2xl text-gray-500 dark:text-gray-400"
+          >
             Loading saved player data...
           </div>
           <div
-            class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#2196F3]"
+            class="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-4 border-b-4 border-[#2196F3]"
           ></div>
         </div>
       </div>
