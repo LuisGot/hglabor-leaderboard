@@ -13,9 +13,8 @@
   <div class="container mx-auto px-4 py-8">
     <div class="space-y-16">
       <div
-        *ngFor="let hero of getHeroEntries(); let heroIndex = index"
-        class="hero-card opacity-0 animate-slide-up animation-play-once"
-        [ngStyle]="{ 'animation-delay': heroIndex * 150 + 'ms' }"
+        *ngFor="let hero of getHeroEntries(); trackBy: trackHero"
+        class="hero-card opacity-0 animate-slide-up animation-delay-300"
       >
         <div class="mb-6 flex items-center space-x-4">
           <h3
@@ -45,12 +44,9 @@
           <div
             *ngFor="
               let ability of getAbilityEntries(hero[1]);
-              let abilityIndex = index
+              trackBy: trackAbility
             "
-            class="mb-10 opacity-0 animate-fade-in animation-play-once"
-            [ngStyle]="{
-              'animation-delay': heroIndex * 150 + abilityIndex * 100 + 'ms'
-            }"
+            class="mb-10 opacity-0 animate-fade-in animation-delay-400"
           >
             <div class="mb-4 flex items-center">
               <div class="mr-3 p-1 rounded-lg bg-[#2196F3]/10">
@@ -84,10 +80,7 @@
               class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg"
             >
               <div class="overflow-x-auto">
-                <table
-                  class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
-                >
-                  <!-- Table header (desktop only) -->
+                <table class="min-w-full">
                   <thead
                     class="bg-[#2196F3]/10 dark:bg-[#2196F3]/20 hidden lg:table-header-group"
                   >
@@ -128,19 +121,8 @@
                     class="divide-y divide-gray-200 dark:divide-neutral-700"
                   >
                     <tr
-                      *ngFor="
-                        let stat of ability[1].stats;
-                        let statIndex = index
-                      "
-                      class="hover:bg-[#2196F3]/5 transition-colors duration-150 opacity-0 animate-fade-in animation-play-once"
-                      [ngStyle]="{
-                        'animation-delay':
-                          heroIndex * 100 +
-                          abilityIndex * 50 +
-                          statIndex * 30 +
-                          200 +
-                          'ms'
-                      }"
+                      *ngFor="let stat of ability[1].stats; trackBy: trackStat"
+                      class="hover:bg-[#2196F3]/5 transition-colors duration-150 opacity-0 animate-fade-in animation-delay-500"
                     >
                       <td class="px-6 py-5">
                         <div class="flex flex-col sm:flex-row sm:items-center">
@@ -162,8 +144,9 @@
                         <div class="flex flex-col items-center justify-center">
                           <span
                             class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
-                            >Current Value</span
                           >
+                            Current Value
+                          </span>
                           <span class="text-2xl font-bold text-[#2196F3]">
                             {{ formatValue(stat.currentValue) }}
                           </span>
@@ -179,17 +162,19 @@
                         <div class="flex flex-col items-center justify-center">
                           <span
                             class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
-                            >Level</span
                           >
+                            Level
+                          </span>
                           <div class="flex flex-col items-center">
                             <div class="flex items-center mb-1">
                               <span
                                 class="text-2xl font-bold text-gray-800 dark:text-white mr-1"
-                                >{{ stat.currentLevel }}</span
                               >
-                              <span class="text-gray-500 dark:text-gray-400"
-                                >/ {{ stat.maxLevel }}</span
-                              >
+                                {{ stat.currentLevel }}
+                              </span>
+                              <span class="text-gray-500 dark:text-gray-400">
+                                / {{ stat.maxLevel }}
+                              </span>
                             </div>
                             <div
                               class="relative w-16 h-1 bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
@@ -235,18 +220,17 @@
                         <div class="flex flex-col items-center justify-center">
                           <span
                             class="text-xs lg:hidden text-gray-500 dark:text-gray-400 mb-1"
-                            >Progress</span
                           >
+                            Progress
+                          </span>
                           <div *ngIf="stat.xpToNextLevel" class="w-full">
                             <div class="flex justify-between text-sm mb-1">
-                              <span class="text-[#2196F3] font-medium"
-                                >To Lvl {{ stat.currentLevel + 1 }}</span
-                              >
-                              <span class="text-[#2196F3] font-medium"
-                                >{{
-                                  stat.exactProgressToNextLevel.toFixed(1)
-                                }}%</span
-                              >
+                              <span class="text-[#2196F3] font-medium">
+                                To Lvl {{ stat.currentLevel + 1 }}
+                              </span>
+                              <span class="text-[#2196F3] font-medium">
+                                {{ stat.exactProgressToNextLevel.toFixed(1) }}%
+                              </span>
                             </div>
                             <div
                               class="relative h-3 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"

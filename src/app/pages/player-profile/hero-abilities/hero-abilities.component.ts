@@ -1,10 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  PlayerProfileService,
-  HeroDetails,
-  HeroProperty,
-} from '../player-profile.service';
+import { PlayerProfileService, HeroDetails } from '../player-profile.service';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HeroCalculatorService } from './hero-calculator.service';
@@ -175,12 +171,21 @@ export class HeroAbilitiesComponent implements OnInit {
     this.enhancedHeroes[heroKey].detailsLoaded = true;
   }
 
+  // Instead of returning a new array every time, implement trackBy functions to prevent Angular from recreating DOM elements
   getHeroEntries(): [string, EnhancedHero][] {
     return Object.entries(this.enhancedHeroes);
   }
 
+  trackHero(index: number, heroEntry: [string, EnhancedHero]): string {
+    return heroEntry[0];
+  }
+
   getAbilityEntries(hero: EnhancedHero): [string, EnhancedAbility][] {
     return Object.entries(hero.abilities);
+  }
+
+  trackAbility(index: number, abilityEntry: [string, EnhancedAbility]): string {
+    return abilityEntry[0];
   }
 
   formatAbilityName(name: string): string {
@@ -203,5 +208,9 @@ export class HeroAbilitiesComponent implements OnInit {
     if (progress < 0.3) return 'bg-red-500';
     if (progress < 0.7) return 'bg-yellow-500';
     return 'bg-blue-500';
+  }
+
+  trackStat(index: number, stat: any): any {
+    return stat.name;
   }
 }
