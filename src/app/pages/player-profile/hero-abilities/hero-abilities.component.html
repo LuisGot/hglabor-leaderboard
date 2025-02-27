@@ -16,7 +16,10 @@
         *ngFor="let hero of getHeroEntries(); trackBy: trackHero"
         class="hero-card opacity-0 animate-slide-up animation-delay-300"
       >
-        <div class="mb-6 flex items-center space-x-4">
+        <div
+          class="mb-6 flex items-center space-x-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800 p-2 rounded-lg transition-colors duration-150"
+          (click)="toggleHero(hero[0])"
+        >
           <h3
             class="text-4xl text-[#2196F3] capitalize font-bold tracking-wide"
           >
@@ -29,6 +32,39 @@
           >
             Loading...
           </div>
+
+          <div *ngIf="hero[1].detailsLoaded" class="text-[#2196F3]">
+            <svg
+              *ngIf="!hero[1].isExpanded"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+            <svg
+              *ngIf="hero[1].isExpanded"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </div>
         </div>
 
         <div
@@ -40,7 +76,63 @@
           </div>
         </div>
 
-        <div *ngIf="hero[1].detailsLoaded">
+        <div
+          *ngIf="hero[1].detailsLoaded && !hero[1].isExpanded"
+          class="px-6 py-4 bg-gray-50 dark:bg-neutral-800 rounded-xl mb-4"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div
+              *ngFor="
+                let ability of getAbilityEntries(hero[1]);
+                trackBy: trackAbility
+              "
+              class="flex flex-col p-3 rounded-lg bg-white dark:bg-neutral-700 shadow-sm"
+            >
+              <div class="flex justify-between items-center mb-2">
+                <div class="text-lg font-medium text-gray-800 dark:text-white">
+                  {{ ability[1].name }}
+                </div>
+                <div
+                  *ngIf="calculateAbilityProgress(ability[1].stats) >= 100"
+                  class="text-xs font-medium px-1.5 py-0.5 bg-green-500 text-white rounded-full"
+                >
+                  MAXED
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-2 mb-2">
+                <div class="text-3xl font-bold text-[#2196F3]">
+                  {{ calculateAbilityProgress(ability[1].stats).toFixed(0) }}%
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  complete
+                </div>
+              </div>
+
+              <div class="w-full">
+                <div
+                  class="relative h-2 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                >
+                  <div
+                    [ngClass]="
+                      getAbilityProgressColor(
+                        calculateAbilityProgress(ability[1].stats)
+                      )
+                    "
+                    class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                    [style.width.%]="calculateAbilityProgress(ability[1].stats)"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                {{ ability[1].stats.length }} attributes
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="hero[1].detailsLoaded && hero[1].isExpanded">
           <div
             *ngFor="
               let ability of getAbilityEntries(hero[1]);
@@ -48,7 +140,10 @@
             "
             class="mb-10 opacity-0 animate-fade-in animation-delay-400"
           >
-            <div class="mb-4 flex items-center">
+            <div
+              class="mb-4 flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800 p-2 rounded-lg transition-colors duration-150"
+              (click)="toggleAbility(hero[0], ability[0])"
+            >
               <div class="mr-3 p-1 rounded-lg bg-[#2196F3]/10">
                 <div
                   class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2196F3]/20 text-[#2196F3]"
@@ -70,13 +165,105 @@
                 </div>
               </div>
               <h4
-                class="text-3xl text-gray-800 dark:text-white capitalize font-medium"
+                class="text-3xl text-gray-800 dark:text-white capitalize font-medium flex-grow"
               >
                 {{ ability[1].name }}
               </h4>
+
+              <div class="text-[#2196F3]">
+                <svg
+                  *ngIf="!ability[1].isExpanded"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+                <svg
+                  *ngIf="ability[1].isExpanded"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 15l7-7 7 7"
+                  />
+                </svg>
+              </div>
             </div>
 
             <div
+              *ngIf="!ability[1].isExpanded"
+              class="px-6 py-4 bg-gray-50 dark:bg-neutral-800 rounded-lg mb-4"
+            >
+              <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              >
+                <div
+                  *ngFor="let stat of ability[1].stats; trackBy: trackStat"
+                  class="flex flex-col"
+                >
+                  <div class="flex items-center mb-1">
+                    <div
+                      class="text-sm font-medium text-gray-600 dark:text-gray-300"
+                    >
+                      {{ stat.name }}
+                    </div>
+                    <div
+                      *ngIf="stat.currentLevel === stat.maxLevel"
+                      class="ml-2 text-xs font-medium px-1.5 py-0.5 bg-green-500 text-white rounded-full"
+                    >
+                      MAX
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="text-xl font-bold text-[#2196F3] mr-2">{{
+                      formatValue(stat.currentValue)
+                    }}</span>
+                    <div class="flex items-center">
+                      <span
+                        class="text-sm font-medium text-gray-800 dark:text-white mr-1"
+                        >Lvl {{ stat.currentLevel }}</span
+                      >
+                      <span class="text-xs text-gray-500 dark:text-gray-400"
+                        >/ {{ stat.maxLevel }}</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="stat.currentLevel < stat.maxLevel"
+                    class="w-full mt-1"
+                  >
+                    <div
+                      class="relative h-1 w-full bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden"
+                    >
+                      <div
+                        [ngClass]="
+                          getProgressColor(stat.currentLevel, stat.maxLevel)
+                        "
+                        class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                        [style.width.%]="stat.exactProgressToNextLevel"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              *ngIf="ability[1].isExpanded"
               class="overflow-hidden bg-gray-50 dark:bg-neutral-800 backdrop-blur-sm rounded-xl border-2 border-[#2196F3]/30 shadow-lg"
             >
               <div class="overflow-x-auto">

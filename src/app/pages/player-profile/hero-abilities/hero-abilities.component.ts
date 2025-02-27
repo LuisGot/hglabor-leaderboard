@@ -41,6 +41,7 @@ interface EnhancedHero {
   key: string;
   abilities: { [key: string]: EnhancedAbility };
   detailsLoaded: boolean;
+  isExpanded?: boolean;
 }
 
 @Component({
@@ -74,6 +75,7 @@ export class HeroAbilitiesComponent implements OnInit {
         key: heroKey,
         abilities: {},
         detailsLoaded: false,
+        isExpanded: false,
       };
 
       return this.playerProfileService.getHeroDetails(heroKey).pipe(
@@ -107,6 +109,7 @@ export class HeroAbilitiesComponent implements OnInit {
         this.enhancedHeroes[heroKey].abilities[abilityKey] = {
           name: this.formatAbilityName(abilityKey),
           stats: [],
+          isExpanded: false,
         };
 
         Object.keys(userAbility).forEach((statKey) => {
@@ -212,5 +215,46 @@ export class HeroAbilitiesComponent implements OnInit {
 
   trackStat(index: number, stat: any): any {
     return stat.name;
+  }
+
+  // Toggle the expanded state of an ability
+  toggleAbility(heroKey: string, abilityKey: string): void {
+    if (
+      this.enhancedHeroes[heroKey] &&
+      this.enhancedHeroes[heroKey].abilities[abilityKey]
+    ) {
+      const ability = this.enhancedHeroes[heroKey].abilities[abilityKey];
+      ability.isExpanded = !ability.isExpanded;
+    }
+  }
+
+  // Toggle the expanded state of a hero
+  toggleHero(heroKey: string): void {
+    if (this.enhancedHeroes[heroKey]) {
+      this.enhancedHeroes[heroKey].isExpanded =
+        !this.enhancedHeroes[heroKey].isExpanded;
+    }
+  }
+
+  // Calculate the overall progress of an ability (average level percentage)
+  calculateAbilityProgress(stats: EnhancedAbilityStat[]): number {
+    if (!stats || stats.length === 0) return 0;
+
+    const levelPercentages = stats.map(
+      (stat) => (stat.currentLevel / stat.maxLevel) * 100
+    );
+
+    const total = levelPercentages.reduce((sum, percent) => sum + percent, 0);
+    return total / stats.length;
+  }
+
+  // Get color for ability progress based on overall completion
+  getAbilityProgressColor(progress: number): string {
+    if (progress === 0) return 'bg-gray-400';
+    if (progress >= 100) return 'bg-green-500';
+
+    if (progress < 30) return 'bg-red-500';
+    if (progress < 70) return 'bg-yellow-500';
+    return 'bg-blue-500';
   }
 }
