@@ -125,14 +125,18 @@ export class HeroAbilitiesComponent implements OnInit {
             const levelScale = matchingProperty.levelScale;
             const currentLevel = this.heroCalculator.calculateLevel(
               currentXP,
-              levelScale
+              levelScale,
+              matchingProperty.maxLevel
             );
             let nextLevelXP = null;
             let xpToNextLevel = null;
             let percentToNextLevel = 0;
             let exactProgressToNextLevel = 0;
 
-            if (currentLevel < matchingProperty.maxLevel) {
+            // Special case: If maxLevel is 0, treat it as already maxed (100% progress)
+            if (matchingProperty.maxLevel === 0) {
+              exactProgressToNextLevel = 100;
+            } else if (currentLevel < matchingProperty.maxLevel) {
               nextLevelXP = this.heroCalculator.calculateXpForLevel(
                 currentLevel + 1,
                 levelScale
@@ -145,6 +149,9 @@ export class HeroAbilitiesComponent implements OnInit {
                   currentLevel,
                   levelScale
                 );
+            } else {
+              // If already at max level, set progress to 100%
+              exactProgressToNextLevel = 100;
             }
 
             const currentValue = this.heroCalculator.calculateCurrentValue(
@@ -204,6 +211,8 @@ export class HeroAbilitiesComponent implements OnInit {
   }
 
   getProgressColor(currentLevel: number, maxLevel: number): string {
+    // If maxLevel is 0, it should be considered as "maxed"
+    if (maxLevel === 0) return 'bg-green-500';
     if (currentLevel === 0) return 'bg-gray-400';
     if (currentLevel === maxLevel) return 'bg-green-500';
 
@@ -240,9 +249,13 @@ export class HeroAbilitiesComponent implements OnInit {
   calculateAbilityProgress(stats: EnhancedAbilityStat[]): number {
     if (!stats || stats.length === 0) return 0;
 
-    const levelPercentages = stats.map(
-      (stat) => (stat.currentLevel / stat.maxLevel) * 100
-    );
+    const levelPercentages = stats.map((stat) => {
+      // Special case: if maxLevel is 0, consider it as already maxed (100%)
+      if (stat.maxLevel === 0) {
+        return 100;
+      }
+      return (stat.currentLevel / stat.maxLevel) * 100;
+    });
 
     const total = levelPercentages.reduce((sum, percent) => sum + percent, 0);
     return total / stats.length;

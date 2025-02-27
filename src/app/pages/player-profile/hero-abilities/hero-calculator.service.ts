@@ -4,9 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class HeroCalculatorService {
-  calculateLevel(xp: number, levelScale: number): number {
+  calculateLevel(
+    xp: number,
+    levelScale: number,
+    maxLevel: number = Infinity
+  ): number {
     if (xp <= 0) return 0;
-    return Math.floor(Math.cbrt(xp / levelScale));
+    const calculatedLevel = Math.floor(Math.cbrt(xp / levelScale));
+    return Math.min(calculatedLevel, maxLevel);
   }
 
   calculateXpForLevel(level: number, levelScale: number): number {

@@ -375,7 +375,9 @@
                                 "
                                 class="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
                                 [style.width.%]="
-                                  (stat.currentLevel / stat.maxLevel) * 100
+                                  stat.maxLevel === 0
+                                    ? 100
+                                    : (stat.currentLevel / stat.maxLevel) * 100
                                 "
                               ></div>
                             </div>
@@ -410,7 +412,10 @@
                           >
                             Progress
                           </span>
-                          <div *ngIf="stat.xpToNextLevel" class="w-full">
+                          <div
+                            *ngIf="stat.xpToNextLevel && stat.maxLevel !== 0"
+                            class="w-full"
+                          >
                             <div class="flex justify-between text-sm mb-1">
                               <span class="text-[#2196F3] font-medium">
                                 To Lvl {{ stat.currentLevel + 1 }}
@@ -429,26 +434,12 @@
                             </div>
                           </div>
                           <div
-                            *ngIf="!stat.xpToNextLevel"
+                            *ngIf="!stat.xpToNextLevel || stat.maxLevel === 0"
                             class="flex items-center justify-center"
                           >
-                            <span
-                              class="text-green-500 font-medium flex items-center"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 mr-1"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                              Maxed
-                            </span>
+                            <span class="text-green-500 font-medium">{{
+                              stat.maxLevel === 0 ? "Unlocked" : "Maximum"
+                            }}</span>
                           </div>
                         </div>
                       </td>
